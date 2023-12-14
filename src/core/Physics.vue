@@ -1,37 +1,22 @@
 <script setup lang="ts">
-import { onMounted, nextTick, shallowRef } from 'vue'
 import { useRenderLoop } from '@tresjs/core'
-import type { World } from '@dimforge/rapier3d-compat'
+import { useRapierContextProvider } from '../composables/useRapier'
 
-const RAPIER = await import('@dimforge/rapier3d-compat')
-await RAPIER.init()
+const { world } = await useRapierContextProvider()
 
-//
-// Refs
-//
-const worldRef = shallowRef<World>()
+console.log('world', world)
 
 const { onLoop } = useRenderLoop()
 
-createWorld()
+onLoop(() => {
+  if (!world) return
+  world.step()
 
-onMounted(async () => {
-	await nextTick()
-
-	onLoop(() => {
-		worldRef.value?.step()
-	})
+  /* const position = world.bodies.get(0).translation()
+  console.log('Rigid-body position: ', position.x, position.y, position.z) */
 })
-
-//
-// Methods
-//
-function createWorld() {
-	const gravity = { x: 0, y: -9.81, z: 0 }
-	worldRef.value = new RAPIER.World(gravity)
-}
 </script>
 
 <template>
-	<slot />
+  <slot />
 </template>
