@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@dimforge/rapier3d-compat':
-        specifier: ^0.11.2
-        version: 0.11.2
+        specifier: ^0.13.0
+        version: 0.13.0
       '@tresjs/core':
         specifier: ^3.5.0
         version: 3.5.0(three@0.158.0)(vue@3.3.8)
@@ -317,8 +317,8 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
-  /@dimforge/rapier3d-compat@0.11.2:
-    resolution: {integrity: sha512-vdWmlkpS3G8nGAzLuK7GYTpNdrkn/0NKCe0l1Jqxc7ZZOB3N0q9uG/Ap9l9bothWuAvxscIt0U97GVLr0lXWLg==}
+  /@dimforge/rapier3d-compat@0.13.0:
+    resolution: {integrity: sha512-5h7ZxWYzK/xqhHkQ4XSAdmSNwwmQGI/KgNPPTsTP+UNWI05tkNYPF6jcJovnNu+NGuxSvywH35mrFWitiYy0WQ==}
     dev: false
 
   /@docsearch/css@3.5.2:
