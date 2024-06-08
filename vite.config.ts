@@ -1,19 +1,21 @@
-import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-
+import analyze from 'rollup-plugin-analyzer'
 import banner from 'vite-plugin-banner'
 import dts from 'vite-plugin-dts'
+import { defineConfig } from 'vite'
 import { resolve } from 'pathe'
-import analyze from 'rollup-plugin-analyzer'
 import { lightGreen, yellow, gray, bold } from 'kolorist'
-
 import { templateCompilerOptions } from '@tresjs/core'
 
 import pkg from './package.json'
 
-console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('⚔')} ${bold('Tres/cientos')} v${pkg.version}`)
+// eslint-disable-next-line no-console
+console.log(
+  `${lightGreen('▲')} ${gray('■')} ${yellow('⚔')} ${bold('Tres/rapier')} v${
+    pkg.version
+  }`,
+)
 
-// https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     dedupe: ['@tresjs/core'],
@@ -27,8 +29,11 @@ export default defineConfig({
       insertTypesEntry: true,
     }),
     banner({
-      content: `/**\n * name: ${pkg.name}\n * version: v${pkg.version
-        }\n * (c) ${new Date().getFullYear()}\n * description: ${pkg.description}\n * author: ${pkg.author}\n */`,
+      content: `/**\n * name: ${pkg.name}\n * version: v${
+        pkg.version
+      }\n * (c) ${new Date().getFullYear()}\n * description: ${
+        pkg.description
+      }\n * author: ${pkg.author}\n */`,
     }),
   ],
   build: {
@@ -44,6 +49,7 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         analyze(),
+        // TODO: Should be removed if not used.
         /* visualizer({
           gzipSize: true,
           brotliSize: true,
