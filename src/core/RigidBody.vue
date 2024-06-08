@@ -1,19 +1,33 @@
 <script setup lang="ts">
-import { onMounted, nextTick, shallowRef, unref, watch } from 'vue'
-import type { RigidBody as RigidBodyType } from '@dimforge/rapier3d-compat'
-import { RigidBody, RigidBodyDesc, ColliderDesc } from '@dimforge/rapier3d-compat'
-import { Box3, Vector3, type Mesh } from 'three'
-import type { TresObject } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
+import {
+  RigidBodyDesc,
+  ColliderDesc,
+} from '@dimforge/rapier3d-compat'
+import { Vector3 } from 'three'
+import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { useRenderLoop } from '@tresjs/core'
+import type { TresObject } from '@tresjs/core'
+
 import { useRapierContext } from '../composables/useRapier'
 
-const props = withDefaults(defineProps<{
-  type?: 'dynamic' | 'kinematic' | 'static' | 'fixed'
-  collider?: 'cuboid' | 'ball' | 'capsule' | 'cone' | 'cylinder' | 'trimesh' | 'heightfield'
-}>(), {
-  type: 'dynamic',
-  collider: 'cuboid',
-})
+const props = withDefaults(
+  defineProps<{
+    type?: 'dynamic' | 'kinematic' | 'kinematicVelocity' | 'fixed'
+    collider?:
+    | 'cuboid'
+    | 'ball'
+    | 'capsule'
+    | 'cone'
+    | 'cylinder'
+    | 'trimesh'
+    | 'heightfield'
+  }>(),
+  {
+    type: 'dynamic',
+    collider: 'cuboid',
+  },
+)
 
 const { world } = await useRapierContext()
 
@@ -27,13 +41,13 @@ watch(rigidRef, (value) => {
   createCollider(value.children[0])
 })
 
-//
-// Methods
-//
 function createRigidBody(object: TresObject) {
   if (!object) return
 
-  const rigidBodyDesc = RigidBodyDesc[props.type]()
+  const rigidBodyDescType = props.type === 'kinematic'
+    ? 'kinematicPositionBased' : props.type === 'kinematicVelocity'
+      ? 'kinematicVelocityBased' : props.type
+  const rigidBodyDesc = RigidBodyDesc[rigidBodyDescType]()
     .setTranslation(object.position.x, object.position.y, object.position.z)
     .setRotation(object.quaternion)
 
@@ -72,15 +86,22 @@ function createCollider(object: TresObject) {
   else if (props.collider === 'cylinder') {
     colliderDesc = ColliderDesc.cylinder(size.x / 2, size.y / 2)
   }
-  /* else if (props.collider === 'trimesh') {
-    colliderDesc = ColliderDesc.trimesh(object.geometry)
-  }
-  else if (props.collider === 'heightfield') {
-    colliderDesc = ColliderDesc.heightfield(object.geometry)
-  } */
-  collider.value = world.createCollider(colliderDesc, rigidBody.value)
+  else if (props.collider === 'trimesh') {
+    const clonedGeometry = mergeVertices(object.geometry)
+    const triMeshMap = clonedGeometry.attributes.position.array as Float32Array
+    const triMeshUnit = clonedGeometry.index?.array as Uint32Array
 
-  console.log('collider', collider.value)
+    colliderDesc = ColliderDesc.trimesh(
+      triMeshMap,
+      triMeshUnit,
+    )
+  }
+  // TODO: Unable to retrieve the subdivision number & the Matrix of the given object for heightfield
+  // else if (props.collider === 'heightfield') {
+  //   colliderDesc = ColliderDesc.heightfield(object.geometry)
+  // }
+
+  collider.value = world.createCollider(colliderDesc, rigidBody.value)
 }
 
 const { onLoop } = useRenderLoop()
@@ -89,7 +110,7 @@ onLoop(() => {
   if (!rigidBody.value) return
 
   const position = rigidBody.value.translation()
-  rigidRef.value.children[0].position.set(position.x, position.y, position.z)
+  rigidRef.value?.children[0].position.set(position.x, position.y, position.z)
 })
 </script>
 
