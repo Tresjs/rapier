@@ -29,7 +29,7 @@ const props = withDefaults(
   },
 )
 
-const { world } = await useRapierContext()
+const { world } = useRapierContext()
 
 const rigidRef = shallowRef<TresObject>()
 const rigidBody = shallowRef<any>()
