@@ -57,14 +57,14 @@
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.11.2",
     "@tresjs/core": "^3.5.0",
-    "three": "^0.158.0",
+    "three": "^0.165.0",
     "vue": "^3.3.8"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.0",
     "@tresjs/eslint-config-vue": "^0.2.1",
     "@types/node": "^20.9.0",
-    "@types/three": "^0.158.2",
+    "@types/three": "^0.165.0",
     "@vitejs/plugin-vue": "^4.4.1",
     "dts": "^0.1.1",
     "eslint": "^8.53.0",
