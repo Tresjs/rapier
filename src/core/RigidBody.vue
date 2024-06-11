@@ -1,53 +1,38 @@
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue'
-import {
-  RigidBodyDesc,
-  ColliderDesc,
-} from '@dimforge/rapier3d-compat'
+import { ColliderDesc, RigidBodyDesc } from '@dimforge/rapier3d-compat'
 import { Vector3 } from 'three'
 import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import { useRenderLoop } from '@tresjs/core'
-import type { TresObject } from '@tresjs/core'
-
+import { type TresObject, useLoop } from '@tresjs/core'
 import { useRapierContext } from '../composables/useRapier'
 
-const props = withDefaults(
-  defineProps<{
-    type?: 'dynamic' | 'kinematic' | 'kinematicVelocity' | 'fixed'
-    collider?:
-    | 'cuboid'
-    | 'ball'
-    | 'capsule'
-    | 'cone'
-    | 'cylinder'
-    | 'trimesh'
-    | 'heightfield'
-  }>(),
-  {
-    type: 'dynamic',
-    collider: 'cuboid',
-  },
-)
+const props = withDefaults(defineProps<{
+  type?: 'dynamic' | 'kinematic' | 'static' | 'fixed'
+  collider?: 'cuboid' | 'ball' | 'capsule' | 'cone' | 'cylinder' | 'trimesh' | 'heightfield'
+}>(), {
+  type: 'dynamic',
+  collider: 'cuboid',
+})
 
-const { world } = useRapierContext()
+const { world } = await useRapierContext()
 
 const rigidRef = shallowRef<TresObject>()
 const rigidBody = shallowRef<any>()
 const collider = shallowRef<any>()
 
 watch(rigidRef, (value) => {
-  if (!value) return
+  if (!value) { return }
   createRigidBody(value.children[0])
   createCollider(value.children[0])
 })
 
+//
+// Methods
+//
 function createRigidBody(object: TresObject) {
-  if (!object) return
+  if (!object) { return }
 
-  const rigidBodyDescType = props.type === 'kinematic'
-    ? 'kinematicPositionBased' : props.type === 'kinematicVelocity'
-      ? 'kinematicVelocityBased' : props.type
-  const rigidBodyDesc = RigidBodyDesc[rigidBodyDescType]()
+  const rigidBodyDesc = RigidBodyDesc[props.type]()
     .setTranslation(object.position.x, object.position.y, object.position.z)
     .setRotation(object.quaternion)
 
@@ -65,7 +50,7 @@ function createRigidBody(object: TresObject) {
 }
 
 function createCollider(object: TresObject) {
-  if (!object) return
+  if (!object) { return }
 
   // Create a cuboid collider attached to the dynamic rigidBody.
   object.geometry.computeBoundingBox()
@@ -100,22 +85,33 @@ function createCollider(object: TresObject) {
   // else if (props.collider === 'heightfield') {
   //   colliderDesc = ColliderDesc.heightfield(object.geometry)
   // }
-
+  /* else if (props.collider === 'trimesh') {
+    colliderDesc = ColliderDesc.trimesh(object.geometry)
+  }
+  else if (props.collider === 'heightfield') {
+    colliderDesc = ColliderDesc.heightfield(object.geometry)
+  } */
   collider.value = world.createCollider(colliderDesc, rigidBody.value)
+
+  // eslint-disable-next-line no-console
+  console.log('collider', collider.value)
 }
 
-const { onLoop } = useRenderLoop()
+const { onBeforeRender } = useLoop()
 
-onLoop(() => {
-  if (!rigidBody.value) return
+onBeforeRender(() => {
+  if (!rigidBody.value) { return }
 
   const position = rigidBody.value.translation()
-  rigidRef.value?.children[0].position.set(position.x, position.y, position.z)
+  rigidRef.value.children[0].position.set(position.x, position.y, position.z)
+
+  const rotation = rigidBody.value.rotation()
+  rigidRef.value.children[0].quaternion.set(rotation.x, rotation.y, rotation.z, rotation.w)
 })
 </script>
 
 <template>
   <TresGroup ref="rigidRef">
-    <slot />
+    <slot></slot>
   </TresGroup>
 </template>

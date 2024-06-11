@@ -54,8 +54,8 @@ export async function useRapierContextProvider() {
       toProvide.world = world
     },
     step: (timestep) => {
-      if (!toProvide.world) return
-      if (typeof timestep === 'number') toProvide.world.timestep = timestep
+      if (!toProvide.world) { return }
+      if (typeof timestep === 'number') { toProvide.world.timestep = timestep }
 
       toProvide.world.step()
     },
@@ -80,10 +80,11 @@ export async function useRapierContextProvider() {
 export function useRapierContext(): RapierContext {
   const context = inject<Partial<RapierContext>>('useRapier')
 
-  if (!context?.world)
+  if (!context?.world) {
     throw new Error(
       'useRapierContext must be used together with useRapierContextProvider',
     )
+  }
 
   return context as RapierContext
 }

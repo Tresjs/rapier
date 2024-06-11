@@ -1,16 +1,26 @@
 <script setup lang="ts">
-import { useRenderLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import { useRapierContextProvider } from '../composables/useRapier'
+import Debug from './Debug.vue'
 
-const { world, step } = await useRapierContextProvider()
-const { onLoop } = useRenderLoop()
+withDefaults(
+  defineProps<{ debug: boolean }>(),
+  {
+    debug: false,
+  },
+)
 
-onLoop(() => {
-  if (!world) return
-  step()
+const { world } = await useRapierContextProvider()
+
+const { onBeforeRender } = useLoop()
+
+onBeforeRender(() => {
+  if (!world) { return }
+  world.step()
 })
 </script>
 
 <template>
-  <slot />
+  <Debug v-if="debug" />
+  <slot></slot>
 </template>
