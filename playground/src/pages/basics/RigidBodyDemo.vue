@@ -19,20 +19,24 @@ const gl = {
     window-size
   >
     <TresPerspectiveCamera
-      :position="[6, 6, 6]"
+      :position="[11, 11, 11]"
       :look-at="[0, 0, 0]"
     />
     <OrbitControls />
     <Suspense>
-      <Physics>
+      <Physics debug>
         <RigidBody>
           <TresMesh :position="[0, 4, 0]">
             <TresBoxGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
-        <RigidBody collider="ball">
-          <TresMesh :position="[1, 8, 0]">
+        <RigidBody
+          v-for="ball in [1, 2, 3, 4, 5, 6, 7] "
+          :key="ball"
+          collider="ball"
+        >
+          <TresMesh :position="[Math.random() * 2, Math.random() * 2 + 8, Math.random() * 2]">
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
@@ -40,10 +44,10 @@ const gl = {
         <RigidBody type="fixed">
           <TresMesh>
             <TresPlaneGeometry
-              :args="[8, 8, 8]"
+              :args="[20, 20, 20]"
               :rotate-x="-Math.PI / 2"
             />
-            <TresMeshNormalMaterial />
+            <TresMeshBasicMaterial color="#f4f4f4" />
           </TresMesh>
         </RigidBody>
       </Physics>

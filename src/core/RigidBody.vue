@@ -90,6 +90,10 @@ onLoop(() => {
 
   const position = rigidBody.value.translation()
   rigidRef.value.children[0].position.set(position.x, position.y, position.z)
+
+  const rotation = rigidBody.value.rotation()
+  rigidRef.value.children[0].quaternion.set(rotation.x, rotation.y, rotation.z, rotation.w)
+  
 })
 </script>
 

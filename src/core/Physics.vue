@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { useRenderLoop } from '@tresjs/core'
 import { useRapierContextProvider } from '../composables/useRapier'
+import Debug from './Debug.vue'
+
+withDefaults(
+  defineProps<{ debug: boolean }>(),
+  {
+    debug: false,
+  },
+)
 
 const { world } = await useRapierContextProvider()
 
@@ -18,5 +26,6 @@ onLoop(() => {
 </script>
 
 <template>
+  <Debug v-if="debug" />
   <slot />
 </template>
