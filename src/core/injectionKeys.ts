@@ -1,7 +1,7 @@
 import type { InjectionKey, ShallowRef } from 'vue'
 
-export interface RapierContext {}
+import type { InjectableRapierContext } from '../types/rapier.type'
 
 export const rapierInjectionKey: InjectionKey<
-  ShallowRef<RapierContext | null>
+  ShallowRef<InjectableRapierContext | null>
 > = Symbol('tresrapier')

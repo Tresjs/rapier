@@ -1,48 +1,10 @@
-import type { World } from '@dimforge/rapier3d-compat'
-import type Rapier from '@dimforge/rapier3d-compat'
 import { inject, provide } from 'vue'
 
-const GRAVITY = { x: 0, y: -9.81, z: 0 }
-export interface RapierContext {
-  /**
-   * @description Rapier instance.
-   *
-   * @docs https://rapier.rs/docs/api/javascript/JavaScript3D/
-   */
-  rapier: typeof Rapier
-  /**
-   * @description Rapier physics world
-   */
-  world: World
-  /**
-   * @description If the physics simulation is paused.
-   */
-  isPaused: boolean
-  /**
-   * @description If the debugging mode enabled.
-   */
-  isDebug: boolean
-  /**
-   * @description Set the physics world.
-   *
-   * @param world New physics world.
-   */
-  setWorld: (world: World) => void
-  /**
-   * @description Step the physics world.
-   *
-   * @param timestep The timestep length, in seconds.
-   *
-   * @example
-   * ```ts
-   * step(1/60)
-   * ```
-   */
-  step: (timestep?: number) => void
-}
+import { GRAVITY } from '../constants/physics.constant'
+import type { RapierContext } from '../types/rapier.type'
 
 /**
- * @description to retrieve the `RapierContext` provider.
+ * @description Provides the `RapierContext` provider.
  */
 export async function useRapierContextProvider() {
   const toProvide: Partial<RapierContext> = {
@@ -73,7 +35,7 @@ export async function useRapierContextProvider() {
 }
 
 /**
- * @description To retrieve the `RapierContext`
+ * @description Provides the `RapierContext`
  *
  * @internal
  */
@@ -90,6 +52,6 @@ export function useRapierContext(): RapierContext {
 }
 
 /**
- * @description Retrieve the `RapierContext`
+ * @description Provides the `RapierContext`
  */
 export const useRapier = useRapierContext
