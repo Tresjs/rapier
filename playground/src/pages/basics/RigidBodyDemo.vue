@@ -20,7 +20,12 @@ const gl = {
     <Suspense>
       <Physics debug>
         <RigidBody>
-          <TresMesh :position="[0, 4, 0]">
+          <TresMesh :position="[0, 8, 0]">
+            <TresTorusGeometry />
+            <TresMeshNormalMaterial />
+          </TresMesh>
+
+          <TresMesh :position="[0, 5, 0]">
             <TresBoxGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>

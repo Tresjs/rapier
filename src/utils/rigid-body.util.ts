@@ -1,19 +1,19 @@
 import { RigidBodyDesc } from '@dimforge/rapier3d-compat'
-import type { TresObject } from '@tresjs/core'
 
-import type { RigidBodyType } from '../types/rigid-body.type'
+import type { CreateRigidBodyDescProps, CreateRigidBodyProps } from '../types/rigid-body.type'
 
 /**
- * @description Create a {@link RigidBodyDesc} based on the passed
- * {@link TresObject} and the {@link RigidBodyType}
+ * @description Create a {@link RigidBodyDesc} based on the given
+ * {@link CreateRigidBodyDescProps}
  *
- * @param object `TresObject` based on.
+ * @param props {@link CreateRigidBodyDescProps}
  *
- * @param rigidBodyType The type of the `RigidBodyDesc`
- *
- * @internal
+ * @see https://rapier.rs/javascript3d/classes/RigidBodyDesc.html
+ * @see https://rapier.rs/docs/user_guides/javascript/rigid_bodies
  */
-export const createRigidBodyDesc = (object: TresObject, rigidBodyType: RigidBodyType) => {
+export const createRigidBodyDesc = (props: CreateRigidBodyDescProps) => {
+  const { object, rigidBodyType } = props
+
   if (!object) { return }
 
   const safeRigidBodyDescType: keyof typeof RigidBodyDesc = rigidBodyType === 'kinematic'
@@ -36,4 +36,30 @@ export const createRigidBodyDesc = (object: TresObject, rigidBodyType: RigidBody
   }
 
   return rigidBodyDesc
+}
+
+/**
+ * @description Create a {@link RigidBody} based on the given
+ * {@link CreateRigidBodyProps}
+ *
+ * @param props {@link CreateRigidBodyProps}
+ *
+ * @see https://rapier.rs/javascript3d/classes/RigidBody.html
+ * @see https://rapier.rs/docs/user_guides/javascript/rigid_bodies
+ */
+export const createRigiBody = (props: CreateRigidBodyProps) => {
+  const { object, world } = props
+  const rigidBodyDesc = createRigidBodyDesc(props)
+
+  if (!rigidBodyDesc) {
+    throw new Error(
+      `Invalid #ColliderDesc properties detected. Unable to create the rigid-body for #${object?.uuid ?? 'object'}`,
+    )
+  }
+  const rigidBody = world.createRigidBody(rigidBodyDesc)
+
+  return {
+    rigidBodyDesc,
+    rigidBody,
+  }
 }
