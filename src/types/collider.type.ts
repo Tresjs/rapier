@@ -1,5 +1,6 @@
 import type { RigidBody, World } from '@dimforge/rapier3d-compat'
 import type { TresObject } from '@tresjs/core'
+import type { InstancedMesh } from 'three'
 
 /** @description Tres Rapier supported Collider shapes. */
 export type ColliderShape =
@@ -14,7 +15,7 @@ export type ColliderShape =
 
 export interface CreateColliderDescProps {
   /** @description The parent object. (@link TresObject}. */
-  object: TresObject
+  object: TresObject | InstancedMesh
   /** @description The `Collider` shape. {@link ColliderShape}. */
   colliderShape?: ColliderShape
 }
@@ -30,4 +31,6 @@ export interface CreateColliderProps extends CreateColliderDescProps {
   world: World
 }
 
-export interface CreateColliderFromChildrenProps extends CreateColliderProps {}
+export interface CreateCollidersFromChildrenProps extends CreateColliderProps {}
+
+export interface CreateCollidersFromInstancedProps extends CreateColliderProps {}

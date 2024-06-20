@@ -2,7 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { Physics, RigidBody } from '@tresjs/rapier'
-import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
+import { ACESFilmicToneMapping, MeshNormalMaterial, SRGBColorSpace, TorusKnotGeometry } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -11,6 +11,9 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: ACESFilmicToneMapping,
 }
+
+const torusKnots = new TorusKnotGeometry()
+const torusKnotsMaterial = new MeshNormalMaterial()
 </script>
 
 <template>
@@ -19,7 +22,11 @@ const gl = {
     <OrbitControls />
     <Suspense>
       <Physics debug>
-        <RigidBody>
+        <RigidBody instanced>
+          <TresInstancedMesh :args="[torusKnots, torusKnotsMaterial, 3]" />
+        </RigidBody>
+
+        <RigidBody collider="hull">
           <TresMesh :position="[0, 8, 0]">
             <TresTorusGeometry />
             <TresMeshNormalMaterial />
@@ -37,7 +44,7 @@ const gl = {
           </TresMesh>
         </RigidBody>
         <RigidBody type="fixed">
-          <TresMesh>
+          <TresMesh :position="[0, -5, 0]">
             <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
             <TresMeshBasicMaterial color="#f4f4f4" />
           </TresMesh>

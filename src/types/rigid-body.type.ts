@@ -1,5 +1,6 @@
 import type { TresObject } from '@tresjs/core'
 import type { World } from '@dimforge/rapier3d-compat'
+import type { InstancedMesh } from 'three'
 
 import type { ColliderShape } from './collider.type'
 
@@ -15,11 +16,13 @@ export interface RigidBodyProps {
   type: RigidBodyType
   /**  @description Set the `RigidBody` collider shape. */
   collider: ColliderShape
+  /** @description Make the **RigidBody** support `instancedMesh` */
+  instanced: boolean
 }
 
 export interface CreateRigidBodyDescProps {
   /** @description The parent object. (@link TresObject}. */
-  object: TresObject
+  object: TresObject | InstancedMesh
   /** @description The `rigidBody` type. {@link RigidBodyType}. */
   rigidBodyType: RigidBodyType
 }

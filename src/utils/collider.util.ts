@@ -4,8 +4,8 @@ import type { TresObject } from '@tresjs/core'
 
 import { VECTOR_ZERO } from '../constants/object.constant'
 import type {
-  CreateColliderFromChildrenProps,
   CreateColliderProps,
+  CreateCollidersFromChildrenProps,
 } from '../types/collider.type'
 import type { CreateColliderDescProps } from './../types/collider.type'
 
@@ -101,15 +101,15 @@ export const createCollider = (props: CreateColliderProps) => {
 }
 
 /**
- * @description Create a {@link Collider} shapes for each child in the object
- * based on the given {@link CreateColliderFromChildrenProps}
+ * @description Create a list of {@link Collider} shapes for each child in the object
+ * based on the given {@link CreateCollidersFromChildrenProps}
  *
- * @param props {@link CreateColliderFromChildrenProps}
+ * @param props {@link CreateCollidersFromChildrenProps}
  *
  * @see https://rapier.rs/javascript3d/classes/Collider.html
  * @see https://rapier.rs/docs/user_guides/javascript/colliders
  */
-export const createColliderFromChildren = (props: CreateColliderFromChildrenProps) => {
+export const createCollidersFromChildren = (props: CreateCollidersFromChildrenProps) => {
   return ((props?.object?.children ?? []) as TresObject[]).map((child) => {
     return {
       ...createCollider({ ...props, object: child }),
