@@ -52,6 +52,14 @@ export const createColliderDesc = (props: CreateColliderDescProps,
       colliderDesc = ColliderDesc.trimesh(triMeshMap, triMeshUnit)
       break
     }
+    case 'hull': {
+      const clonedGeometry = mergeVertices(props.object.geometry)
+      const triMeshMap = clonedGeometry.attributes.position
+        .array as Float32Array
+
+      colliderDesc = ColliderDesc.convexHull(triMeshMap) ?? colliderDesc
+      break
+    }
   }
 
   // TODO: Unable to retrieve the subdivision number & the Matrix of the given object for #heightfield

@@ -8,6 +8,7 @@ export type ColliderShape =
   | 'capsule'
   | 'cone'
   | 'cylinder'
+  | 'hull'
   | 'trimesh'
   | 'heightfield'
 
