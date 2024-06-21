@@ -4,10 +4,11 @@ import type { TresObject } from '@tresjs/core'
 
 import { VECTOR_ZERO } from '../constants/object.constant'
 import type {
+  CreateColliderDescProps,
   CreateColliderProps,
+  CreateColliderReturnType,
   CreateCollidersFromChildrenProps,
 } from '../types/collider.type'
-import type { CreateColliderDescProps } from './../types/collider.type'
 
 /**
  * @description Create a {@link ColliderDesc} shape based on the given
@@ -83,7 +84,7 @@ export const createColliderDesc = (props: CreateColliderDescProps,
  * @see https://rapier.rs/javascript3d/classes/Collider.html
  * @see https://rapier.rs/docs/user_guides/javascript/colliders
  */
-export const createCollider = (props: CreateColliderProps) => {
+export const createCollider = (props: CreateColliderProps): CreateColliderReturnType => {
   const { object, rigidBody, world } = props
   const colliderDesc = createColliderDesc(props)
 
@@ -95,8 +96,9 @@ export const createCollider = (props: CreateColliderProps) => {
   const collider = world.createCollider(colliderDesc, rigidBody)
 
   return {
-    colliderDesc,
     collider,
+    colliderDesc,
+    object,
   }
 }
 
@@ -109,11 +111,10 @@ export const createCollider = (props: CreateColliderProps) => {
  * @see https://rapier.rs/javascript3d/classes/Collider.html
  * @see https://rapier.rs/docs/user_guides/javascript/colliders
  */
-export const createCollidersFromChildren = (props: CreateCollidersFromChildrenProps) => {
+export const createCollidersFromChildren = (
+  props: CreateCollidersFromChildrenProps,
+): CreateColliderReturnType[] => {
   return ((props?.object?.children ?? []) as TresObject[]).map((child) => {
-    return {
-      ...createCollider({ ...props, object: child }),
-      child,
-    }
+    return createCollider({ ...props, object: child })
   })
 }

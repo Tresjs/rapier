@@ -4,10 +4,11 @@ import { type TresObject, useLoop } from '@tresjs/core'
 
 import { InstancedMesh } from 'three'
 import { useRapierContext } from '../composables/useRapier'
-import { createRigiBody } from '../utils/rigid-body.util'
+import { createRigidBody } from '../utils/rigid-body.util'
 import { createCollider, createCollidersFromChildren } from '../utils/collider.util'
 import { MATRIX_ZERO, QUATERNION_ZERO, VECTOR_ZERO } from '../constants/object.constant'
-import type { RigidBodyProps } from '../types/rigid-body.type'
+import type { CreateRigidBodyReturnType, RigidBodyProps } from '../types/rigid-body.type'
+import type { CreateColliderReturnType } from '../types/collider.type'
 
 const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   type: 'dynamic',
@@ -19,8 +20,8 @@ const { world } = await useRapierContext()
 const { onBeforeRender } = useLoop()
 
 const parentObject = shallowRef<TresObject>()
-const rigidBodyInfos = shallowRef<ReturnType<typeof createRigiBody>[]>()
-const colliderInfos = shallowRef<ReturnType<typeof createCollidersFromChildren>>()
+const rigidBodyInfos = shallowRef<CreateRigidBodyReturnType[]>()
+const colliderInfos = shallowRef<CreateColliderReturnType[]>()
 
 watch(parentObject, (object) => {
   if (!object) { return }
@@ -35,35 +36,43 @@ watch(parentObject, (object) => {
       throw new Error('Incorrect data assignment detected! #RigidBody support only one #InstancedMesh')
     }
 
-    // const array = child.instanceMatrix.array
-    const rigidBodies = []
-    const colliders = []
+    const instanceArray = child.instanceMatrix.array
+    const rigidBodies: CreateRigidBodyReturnType[] = []
+    const colliders: CreateColliderReturnType[] = []
 
     for (let i = 0; i < child.count; i++) {
-      // const position = VECTOR_ZERO.fromArray(array, i * 16 + 12)
+      const matrix = MATRIX_ZERO.fromArray(instanceArray, i * 16)
+      const position = VECTOR_ZERO.clone()
+      const quaternion = QUATERNION_ZERO.clone()
+      const scale = VECTOR_ZERO.clone()
+      matrix.decompose(position, quaternion, scale)
 
-      rigidBodies.push(createRigiBody({
+      const rigidBodyInfo = createRigidBody({
         object: child,
         rigidBodyType: props.type,
         world,
-      }))
+      })
+      rigidBodyInfo.rigidBody.setTranslation(position, true)
+      rigidBodyInfo.rigidBody.setRotation(quaternion, true)
 
-      colliders.push(createCollider({
+      const colliderInfo = createCollider({
         object: child,
         colliderShape: props.collider,
-        rigidBody: rigidBodies[i].rigidBody,
+        rigidBody: rigidBodyInfo.rigidBody,
         world,
-      }))
+      })
+
+      rigidBodies.push(rigidBodyInfo)
+      colliders.push(colliderInfo)
     }
 
     rigidBodyInfos.value = rigidBodies
-
     colliderInfos.value = colliders
 
     return
   }
 
-  rigidBodyInfos.value = [createRigiBody({
+  rigidBodyInfos.value = [createRigidBody({
     object,
     rigidBodyType: props.type,
     world,
@@ -92,13 +101,13 @@ onBeforeRender(() => {
       child.getMatrixAt(i, MATRIX_ZERO)
       MATRIX_ZERO.decompose(position, quaternion, scale)
 
-      position = VECTOR_ZERO.copy(
+      position = position.copy(
         rigidBodyInfos.value[i].rigidBody.translation(),
       )
-      quaternion = QUATERNION_ZERO.copy(
+      quaternion = quaternion.copy(
         rigidBodyInfos.value[i].rigidBody.rotation(),
       )
-      scale = VECTOR_ZERO.clone().copy(scale)
+      scale = scale.copy(scale)
 
       MATRIX_ZERO
         .compose(position, quaternion, scale)
@@ -111,12 +120,12 @@ onBeforeRender(() => {
     return
   }
 
-  colliderInfos.value.forEach((item) => {
-    const position = item.collider.translation()
-    item.child.position.set(position.x, position.y, position.z)
+  rigidBodyInfos.value.forEach((item) => {
+    const position = item.rigidBody.translation()
+    item.object.position.set(position.x, position.y, position.z)
 
-    const rotation = item.collider.rotation()
-    item.child.quaternion.set(rotation.x, rotation.y, rotation.z, rotation.w)
+    const rotation = item.rigidBody.rotation()
+    item.object.quaternion.set(rotation.x, rotation.y, rotation.z, rotation.w)
   })
 })
 </script>

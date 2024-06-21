@@ -1,6 +1,10 @@
 import { RigidBodyDesc } from '@dimforge/rapier3d-compat'
 
-import type { CreateRigidBodyDescProps, CreateRigidBodyProps } from '../types/rigid-body.type'
+import type {
+  CreateRigidBodyDescProps,
+  CreateRigidBodyProps,
+  CreateRigidBodyReturnType,
+} from '../types/rigid-body.type'
 
 /**
  * @description Create a {@link RigidBodyDesc} based on the given
@@ -47,7 +51,7 @@ export const createRigidBodyDesc = (props: CreateRigidBodyDescProps) => {
  * @see https://rapier.rs/javascript3d/classes/RigidBody.html
  * @see https://rapier.rs/docs/user_guides/javascript/rigid_bodies
  */
-export const createRigiBody = (props: CreateRigidBodyProps) => {
+export const createRigidBody = (props: CreateRigidBodyProps): CreateRigidBodyReturnType => {
   const { object, world } = props
   const rigidBodyDesc = createRigidBodyDesc(props)
 
@@ -56,10 +60,12 @@ export const createRigiBody = (props: CreateRigidBodyProps) => {
       `Invalid #ColliderDesc properties detected. Unable to create the rigid-body for #${object?.uuid ?? 'object'}`,
     )
   }
+
   const rigidBody = world.createRigidBody(rigidBodyDesc)
 
   return {
-    rigidBodyDesc,
     rigidBody,
+    rigidBodyDesc,
+    object,
   }
 }
