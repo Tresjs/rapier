@@ -2,7 +2,7 @@ import type { TresObject } from '@tresjs/core'
 import type { RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
 import type { InstancedMesh } from 'three'
 
-import type { ColliderShape } from './collider.type'
+import type { ColliderShape } from './collider'
 
 /** @description Tres Rapier supported `RigidBody` types. */
 export type RigidBodyType =

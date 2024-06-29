@@ -1,6 +1,6 @@
 import type { InjectionKey, ShallowRef } from 'vue'
 
-import type { InjectableRapierContext } from '../types/rapier.type'
+import type { InjectableRapierContext } from '../types/rapier'
 
 export const rapierInjectionKey: InjectionKey<
   ShallowRef<InjectableRapierContext | null>

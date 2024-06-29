@@ -2,13 +2,13 @@ import { ColliderDesc } from '@dimforge/rapier3d-compat'
 import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import type { TresObject } from '@tresjs/core'
 
-import { VECTOR_ZERO } from '../constants/object.constant'
+import { VECTOR_ZERO } from '../constants/object'
 import type {
   CreateColliderDescProps,
   CreateColliderProps,
   CreateColliderReturnType,
   CreateCollidersFromChildrenProps,
-} from '../types/collider.type'
+} from '../types/collider'
 
 /**
  * @description Create a {@link ColliderDesc} shape based on the given

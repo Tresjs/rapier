@@ -4,11 +4,11 @@ import { type TresObject, useLoop } from '@tresjs/core'
 
 import { InstancedMesh } from 'three'
 import { useRapierContext } from '../composables/useRapier'
-import { createRigidBody } from '../utils/rigid-body.util'
-import { createCollider, createCollidersFromChildren } from '../utils/collider.util'
-import { MATRIX_ZERO, QUATERNION_ZERO, VECTOR_ZERO } from '../constants/object.constant'
-import type { CreateRigidBodyReturnType, RigidBodyProps } from '../types/rigid-body.type'
-import type { CreateColliderReturnType } from '../types/collider.type'
+import { createRigidBody } from '../utils/rigid-body'
+import { createCollider, createCollidersFromChildren } from '../utils/collider'
+import { MATRIX_ZERO, QUATERNION_ZERO, VECTOR_ZERO } from '../constants/object'
+import type { CreateRigidBodyReturnType, RigidBodyProps } from '../types/rigid-body'
+import type { CreateColliderReturnType } from '../types/collider'
 
 const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   type: 'dynamic',
@@ -23,7 +23,7 @@ const parentObject = shallowRef<TresObject>()
 const rigidBodyInfos = shallowRef<CreateRigidBodyReturnType[]>()
 const colliderInfos = shallowRef<CreateColliderReturnType[]>()
 
-watch(parentObject, (object) => {
+watch(parentObject, (object?: TresObject) => {
   if (!object) { return }
 
   if (props.instanced) {
@@ -120,7 +120,7 @@ onBeforeRender(() => {
     return
   }
 
-  rigidBodyInfos.value.forEach((item) => {
+  rigidBodyInfos.value.forEach((item: CreateRigidBodyReturnType) => {
     const position = item.rigidBody.translation()
     item.object.position.set(position.x, position.y, position.z)
 

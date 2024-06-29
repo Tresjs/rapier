@@ -1,7 +1,7 @@
 import { inject, provide } from 'vue'
 
-import { GRAVITY } from '../constants/physics.constant'
-import type { RapierContext } from '../types/rapier.type'
+import { GRAVITY } from '../constants/physics'
+import type { RapierContext } from '../types/rapier'
 
 /**
  * @description Provides the `RapierContext` provider.

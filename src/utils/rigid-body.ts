@@ -4,7 +4,7 @@ import type {
   CreateRigidBodyDescProps,
   CreateRigidBodyProps,
   CreateRigidBodyReturnType,
-} from '../types/rigid-body.type'
+} from '../types/rigid-body'
 
 /**
  * @description Create a {@link RigidBodyDesc} based on the given
