@@ -57,6 +57,7 @@ export default defineConfig({
         text: 'Guide',
         items: [
           { text: 'Introduction', link: '/guide/' },
+          { text: 'How does it work?', link: '/guide/how-does-it-work' },
         ],
       },
       {
@@ -64,6 +65,7 @@ export default defineConfig({
         items: [
           { text: 'Physics', link: '/components/physics' },
           { text: 'RigidBody', link: '/components/rigid-body' },
+          { text: 'Collider', link: '/components/collider' },
         ],
       },
       {
