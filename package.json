@@ -7,6 +7,10 @@
   "description": "TresJs physics support, powered by rapier",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/rapier.git"
+  },
   "keywords": [
     "vue",
     "3d",
@@ -18,7 +22,9 @@
     "physics"
   ],
   "maintainers": [
-    "Alvaro Saburido (https://github.com/alvarosabu/)"
+    "Alvaro Saburido (https://github.com/alvarosabu/)",
+    "Nathan Mande (https://github.com/Neosoulink/)",
+    "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
   "sideEffects": false,
   "exports": {
