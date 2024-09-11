@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
 import { type TresObject, useLoop } from '@tresjs/core'
+import { shallowRef, watch } from 'vue'
 import { useRapierContext } from '../composables/useRapier'
-import { createRigidBody } from '../utils/rigid-body'
 import { createCollidersFromChildren } from '../utils/collider'
-import type { CreateRigidBodyReturnType, RigidBodyProps } from '../types/rigid-body'
+import { createRigidBody } from '../utils/rigid-body'
 import type { CreateColliderReturnType } from '../types/collider'
+import type { CreateRigidBodyReturnType, RigidBodyProps } from '../types/rigid-body'
 
 const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   type: 'dynamic',
