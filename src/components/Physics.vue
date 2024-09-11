@@ -11,7 +11,7 @@ import Debug from './Debug.vue'
 
 export interface PhysicsProps {
   debug: boolean
-  gravity: TresVector3
+  gravity: TresVector3 | VectorCoordinates
 }
 
 const props = withDefaults(
