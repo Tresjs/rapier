@@ -74,9 +74,9 @@ Basic example, making the cube jump with one click:
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { Physics, RigidBody } from '@tresjs/rapier'
+import { shallowRef } from 'vue'
 
 const rigidCubeRef = shallowRef(null)
 

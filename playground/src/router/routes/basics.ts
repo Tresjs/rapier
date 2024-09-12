@@ -9,4 +9,9 @@ export const basicsRoutes = [
     name: 'Applying Forces',
     component: () => import('../../pages/basics/ApplyingForcesDemo.vue'),
   },
+  {
+    path: '/basics/gravity',
+    name: 'Gravity',
+    component: () => import('../../pages/basics/GravityDemo.vue'),
+  },
 ]

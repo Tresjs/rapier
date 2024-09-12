@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+import { TresLeches, useControls } from '@tresjs/leches'
 import { Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
-import { shallowRef } from 'vue'
+import '@tresjs/leches/styles'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -13,39 +14,33 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
 }
 
-const rigidCubeRef = shallowRef(null)
-const rigidSphereRef = shallowRef(null)
-
-const jumpCube = () => {
-  if (rigidCubeRef.value) {
-    rigidCubeRef.value.rigidBodyInfos.rigidBodyDesc.mass = 5
-    rigidCubeRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
-  }
-}
-const windSphere = () => {
-  if (rigidSphereRef.value) {
-    rigidSphereRef.value.rigidBodyInfos.rigidBodyDesc.mass = 5
-    rigidSphereRef.value.instance.applyImpulse({ x: 5, y: 0, z: 0 }, true)
-  }
-}
+const { gravityY } = useControls({
+  gravityY: { value: 0, min: -20, max: 20, step: 0.1 },
+})
 </script>
 
 <template>
+  <TresLeches />
   <TresCanvas v-bind="gl" window-size>
-    <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
+    <TresPerspectiveCamera :position="[15, 15, 15]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 
     <Suspense>
-      <Physics debug>
-        <RigidBody ref="rigidCubeRef">
-          <TresMesh :position="[0, 5, 0]" @click="jumpCube">
+      <Physics debug :gravity="[0, gravityY, 0]">
+        <RigidBody>
+          <TresMesh :position="[0, 8, 0]">
+            <TresTorusGeometry />
+            <TresMeshNormalMaterial />
+          </TresMesh>
+
+          <TresMesh :position="[0, 5, 0]">
             <TresBoxGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
 
-        <RigidBody ref="rigidSphereRef" collider="ball">
-          <TresMesh :position="[Math.random() * 2, Math.random() * 2 + 8, Math.random() * 2]" @click="windSphere">
+        <RigidBody v-for="ball in [1, 2, 3, 4, 5, 6, 7] " :key="ball" collider="ball">
+          <TresMesh :position="[Math.random() * 2, Math.random() * 2 + 8, Math.random() * 2]">
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
