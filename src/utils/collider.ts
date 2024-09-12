@@ -1,10 +1,4 @@
 import { ColliderDesc } from '@dimforge/rapier3d-compat'
-import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import type { TresObject3D } from '@tresjs/core'
-import type {
-  QuaternionLike,
-  Vector3Like,
-} from 'three'
 import {
   Box3,
   BufferGeometry,
@@ -14,6 +8,12 @@ import {
   Quaternion,
   SphereGeometry,
   Vector3,
+} from 'three'
+import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
+import type { TresObject3D } from '@tresjs/core'
+import type {
+  QuaternionLike,
+  Vector3Like,
 } from 'three'
 
 import { QUATERNION_ZERO, VECTOR_ZERO } from '../constants'
@@ -137,9 +137,9 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
   if (
     shape === 'ball'
     || (shape === undefined
-    && object instanceof Mesh
-    && (object.geometry instanceof SphereGeometry
-    || object.geometry instanceof IcosahedronGeometry))
+      && object instanceof Mesh
+      && (object.geometry instanceof SphereGeometry
+        || object.geometry instanceof IcosahedronGeometry))
   ) {
     colliderDesc = ColliderDesc.ball(radius ?? 1)
   }
@@ -162,8 +162,7 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
       colliderDesc = ColliderDesc.trimesh(triMeshMap, triMeshUnit)
     }
     else if (shape === 'hull') {
-      const triMeshMap = mergeVertices(object.geometry).attributes.position
-        .array as Float32Array
+      const triMeshMap = mergeVertices(object.geometry).attributes.position.array as Float32Array
 
       colliderDesc = ColliderDesc.convexHull(triMeshMap) ?? colliderDesc
     }

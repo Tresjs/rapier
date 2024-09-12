@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type ShallowRef, inject, onUnmounted, shallowRef, watch } from 'vue'
+import { inject, onUnmounted, type ShallowRef, shallowRef, watch } from 'vue'
 
-import type { ColliderProps, CreateColliderReturnType, RigidBodyContext } from '../../types'
-import { createCollider } from '../../utils/collider'
 import { useRapierContext } from '../../composables'
+import { createCollider } from '../../utils/collider'
+import type { ColliderProps, CreateColliderReturnType, RigidBodyContext } from '../../types'
 
 const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   shape: 'cuboid',

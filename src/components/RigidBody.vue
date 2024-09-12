@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onUnmounted, provide, shallowRef, watch } from 'vue'
-import { Object3D } from 'three'
 import { type TresObject, useLoop } from '@tresjs/core'
+import { Object3D } from 'three'
+import { onUnmounted, provide, shallowRef, watch } from 'vue'
 
-import type { ColliderProps, RigidBodyContext, RigidBodyProps } from '../types'
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../utils'
 import { BaseCollider } from './colliders'
+import type { ColliderProps, RigidBodyContext, RigidBodyProps } from '../types'
 
 const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   type: 'dynamic',

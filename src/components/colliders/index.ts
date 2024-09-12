@@ -1,7 +1,7 @@
 import type { Component } from 'vue'
 
-import type { ColliderProps, ColliderShape } from '../../types'
 import BaseCollider from './BaseCollider.vue'
+import type { ColliderProps, ColliderShape } from '../../types'
 
 const shapePrefixes: ColliderShape[] = [
   'ball',
@@ -22,7 +22,7 @@ for (const shape of shapePrefixes) {
   otherColliders[
     `${
       (shape.charAt(0).toUpperCase()
-      + shape.slice(1)) as Capitalize<ColliderShape>
+        + shape.slice(1)) as Capitalize<ColliderShape>
     }Collider`
   ] = {
     extends: BaseCollider,

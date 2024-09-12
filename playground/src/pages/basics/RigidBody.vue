@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { Physics, RigidBody } from '@tresjs/rapier'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',

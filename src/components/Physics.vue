@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { watch } from 'vue'
-import { Vector3 } from 'three'
 import { useLoop } from '@tresjs/core'
+import { Vector3 } from 'three'
+import { watch } from 'vue'
 import type { VectorCoordinates } from '@tresjs/core'
 import { useRapierContextProvider } from '../composables/useRapier'
 
-import type { PhysicsProps } from '../types'
 import { GRAVITY } from '../constants/physics'
 import Debug from './Debug.vue'
+import type { PhysicsProps } from '../types'
 
 const props = withDefaults(
   defineProps<Partial<PhysicsProps>>(),

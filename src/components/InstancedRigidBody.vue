@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { shallowRef, watch } from 'vue'
-import { InstancedMesh, Object3D } from 'three'
 import { type TresObject, useLoop } from '@tresjs/core'
+import { InstancedMesh, Object3D } from 'three'
+import { shallowRef, watch } from 'vue'
 
-import type { InstancedRigidBodyProps, RigidBodyContext } from '../types'
-import { MATRIX_ZERO, QUATERNION_ZERO, VECTOR_ZERO } from '../constants/'
 import { useRapierContext } from '../composables'
+import { MATRIX_ZERO, QUATERNION_ZERO, VECTOR_ZERO } from '../constants/'
 import { createCollider, createRigidBody } from '../utils'
+import type { InstancedRigidBodyProps, RigidBodyContext } from '../types'
 
 const props = withDefaults(defineProps<Partial<InstancedRigidBodyProps>>(), {
   type: 'dynamic',
