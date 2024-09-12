@@ -2,7 +2,7 @@
 import { shallowRef, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
-import { Physics, RigidBody } from '@tresjs/rapier'
+import { InstancedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, DynamicDrawUsage, Matrix4, MeshNormalMaterial, SRGBColorSpace, TorusKnotGeometry } from 'three'
 import type { InstancedMesh } from 'three'
 
@@ -45,28 +45,9 @@ watch(torusInstancedMesh, (mesh) => {
 
     <Suspense>
       <Physics debug>
-        <RigidBody instanced collider="hull">
+        <InstancedRigidBody collider="hull">
           <TresInstancedMesh ref="torusInstancedMesh" :args="[torusKnots, torusKnotsMaterial, 3]" />
-        </RigidBody>
-
-        <RigidBody>
-          <TresMesh :position="[0, 8, 0]">
-            <TresTorusGeometry />
-            <TresMeshNormalMaterial />
-          </TresMesh>
-
-          <TresMesh :position="[0, 5, 0]">
-            <TresBoxGeometry />
-            <TresMeshNormalMaterial />
-          </TresMesh>
-        </RigidBody>
-
-        <RigidBody v-for="ball in [1, 2, 3, 4, 5, 6, 7] " :key="ball" collider="ball">
-          <TresMesh :position="[Math.random() * 2, Math.random() * 2 + 8, Math.random() * 2]">
-            <TresSphereGeometry />
-            <TresMeshNormalMaterial />
-          </TresMesh>
-        </RigidBody>
+        </InstancedRigidBody>
 
         <RigidBody type="fixed">
           <TresMesh :position="[0, 0, 0]">
