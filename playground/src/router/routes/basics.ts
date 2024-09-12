@@ -14,4 +14,14 @@ export const basicsRoutes = [
     name: 'Instanced Rigid Body',
     component: () => import('../../pages/basics/InstancedRigidBody.vue'),
   },
+  {
+    path: '/basics/applying-forces',
+    name: 'Applying Forces',
+    component: () => import('../../pages/basics/ApplyingForcesDemo.vue'),
+  },
+  {
+    path: '/basics/gravity',
+    name: 'Gravity',
+    component: () => import('../../pages/basics/GravityDemo.vue'),
+  },
 ]

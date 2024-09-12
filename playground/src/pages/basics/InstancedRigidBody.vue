@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
-import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
 import { InstancedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, DynamicDrawUsage, Matrix4, MeshNormalMaterial, SRGBColorSpace, TorusKnotGeometry } from 'three'
+import { shallowRef, watch } from 'vue'
 import type { InstancedMesh } from 'three'
 
 const gl = {
@@ -13,6 +13,13 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: ACESFilmicToneMapping,
 }
+
+const instanceRBRef = shallowRef<InstancedMesh>()
+
+watch(instanceRBRef, (IRB) => {
+  // eslint-disable-next-line no-console
+  console.log('jaime ~ IRB:', IRB)
+})
 
 const torusInstancedMesh = shallowRef<InstancedMesh>()
 

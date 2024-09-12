@@ -1,18 +1,43 @@
 <script setup lang="ts">
+import { watch } from 'vue'
+import { Vector3 } from 'three'
 import { useLoop } from '@tresjs/core'
+import type { VectorCoordinates } from '@tresjs/core'
+import { useRapierContextProvider } from '../composables/useRapier'
 
 import type { PhysicsProps } from '../types'
-import { useRapierContextProvider } from '../composables'
+import { GRAVITY } from '../constants/physics'
 import Debug from './Debug.vue'
 
 const props = withDefaults(
   defineProps<Partial<PhysicsProps>>(),
   {
+    gravity: () => new Vector3(GRAVITY.x, GRAVITY.y, GRAVITY.z),
     debug: false,
   },
 )
 
 const { world, isPaused } = await useRapierContextProvider()
+
+const setGravity = (gravity: PhysicsProps['gravity']) => {
+  // If gravity is something like [0, -9.8, 0]
+  if (Array.isArray(gravity)) {
+    world.gravity.x = gravity[0]
+    world.gravity.y = gravity[1]
+    world.gravity.z = gravity[2]
+  }
+  else {
+    const coordinates = gravity as VectorCoordinates
+    world.gravity.x = coordinates.x
+    world.gravity.y = coordinates.y
+    world.gravity.z = coordinates.z
+  }
+}
+
+watch(() => props.gravity, (gravity) => {
+  setGravity(gravity)
+}, { immediate: true })
+
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
