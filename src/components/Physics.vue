@@ -1,22 +1,26 @@
 <script setup lang="ts">
 import { useLoop } from '@tresjs/core'
 
-import { useRapierContextProvider } from '../composables/useRapier'
-import type { PhysicsProps } from '../types/physics'
+import type { PhysicsProps } from '../types'
+import { useRapierContextProvider } from '../composables'
 import Debug from './Debug.vue'
 
-withDefaults(
+const props = withDefaults(
   defineProps<Partial<PhysicsProps>>(),
   {
     debug: false,
   },
 )
 
-const { world } = await useRapierContextProvider()
+const { world, isPaused } = await useRapierContextProvider()
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
-  if (!world) { return }
+  if (!world || isPaused) { return }
+  if (typeof props.timestep === 'number') {
+    world.timestep = props.timestep
+  }
+
   world.step()
 })
 </script>

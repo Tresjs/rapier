@@ -1,5 +1,5 @@
-import Physics from '../components/Physics.vue'
-import RigidBody from '../components/RigidBody.vue'
-import { useRapier } from './../composables/useRapier'
-
-export { Physics, RigidBody, useRapier }
+export * from '../components'
+export * from '../composables'
+export * from '../constants'
+export * from '../types'
+export * from '../utils'
