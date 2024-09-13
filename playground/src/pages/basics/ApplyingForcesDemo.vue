@@ -13,20 +13,25 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
 }
 
-const rigidCubeRef = shallowRef(null)
-const rigidSphereRef = shallowRef(null)
+const rigidCubeRef = shallowRef<any>(null)
+const rigidSphereRef = shallowRef<any>(null)
 
 const jumpCube = () => {
-  if (rigidCubeRef.value) {
-    rigidCubeRef.value.rigidBodyInfos.rigidBodyDesc.mass = 5
-    rigidCubeRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
+  if (!rigidCubeRef.value) {
+    return
   }
+
+  rigidCubeRef.value.rigidBodyDesc.mass = 5
+  rigidCubeRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
 }
+
 const windSphere = () => {
-  if (rigidSphereRef.value) {
-    rigidSphereRef.value.rigidBodyInfos.rigidBodyDesc.mass = 5
-    rigidSphereRef.value.instance.applyImpulse({ x: 5, y: 0, z: 0 }, true)
+  if (!rigidSphereRef.value) {
+    return
   }
+
+  rigidSphereRef.value.rigidBodyDesc.mass = 5
+  rigidSphereRef.value.instance.applyImpulse({ x: 5, y: 0, z: 0 }, true)
 }
 </script>
 

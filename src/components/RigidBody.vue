@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type TresObject, useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
-import { onUnmounted, provide, shallowRef, watch } from 'vue'
+import { defineExpose, onUnmounted, provide, shallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../utils'
@@ -18,9 +18,18 @@ const { world } = useRapierContext()
 
 const bodyGroup = shallowRef<TresObject>()
 const bodyContext = shallowRef<RigidBodyContext>()
+const instance = shallowRef<RigidBodyContext['rigidBody']>()
+const instanceDesc = shallowRef<RigidBodyContext['rigidBodyDesc']>()
 const autoColliderProps = shallowRef<ColliderProps[]>([])
 
 provide('bodyContext', bodyContext)
+
+defineExpose({
+  instance,
+  rigidBodyDesc: instanceDesc,
+  context: bodyContext,
+  group: bodyGroup,
+})
 
 watch(bodyGroup, (group) => {
   if (!(group instanceof Object3D) || bodyContext.value) { return }
@@ -37,6 +46,8 @@ watch(bodyGroup, (group) => {
   }
 
   bodyContext.value = newPhysicsState
+  instance.value = newPhysicsState.rigidBody
+  instanceDesc.value = newPhysicsState.rigidBodyDesc
 
   if (props.collider !== false) {
     const colliders = []

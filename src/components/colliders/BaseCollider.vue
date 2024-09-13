@@ -13,25 +13,34 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
 const { world } = useRapierContext()
 
 const bodyContext = inject<ShallowRef<RigidBodyContext>>('bodyContext') ?? shallowRef<RigidBodyContext>()
-const collider = shallowRef<CreateColliderReturnType>()
+const colliderInfos = shallowRef<CreateColliderReturnType>()
+const instance = shallowRef<CreateColliderReturnType['collider']>()
+const instanceDesc = shallowRef<CreateColliderReturnType['colliderDesc']>()
+
+defineExpose({
+  instance,
+  colliderDesc: instanceDesc,
+})
 
 // TODO: Correctly wait for the physics state to be available
 watch(bodyContext, state => setTimeout(() => {
-  if (collider.value || !state) { return }
+  if (colliderInfos.value || !state) { return }
 
-  collider.value = createCollider({
+  colliderInfos.value = createCollider({
     ...props,
     object: props.object ?? state.group,
     rigidBody: state.rigidBody,
     world,
   })
+  instance.value = colliderInfos.value.collider
+  instanceDesc.value = colliderInfos.value.colliderDesc
 
-  state.colliders.push(collider.value)
+  state.colliders.push(colliderInfos.value)
 }, 0), { immediate: true })
 
 // TODO: Correctly remove the state from the map and physics world when the component is unmounted
 onUnmounted(() => {
-  if (bodyContext.value && collider.value) {
+  if (bodyContext.value && colliderInfos.value) {
     // Dispose of the collider
   }
 })
