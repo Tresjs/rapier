@@ -47,11 +47,15 @@ export interface ColliderProps {
   scale?: [x: number, y: number, z: number] | [radiusScale: number]
 }
 
-export interface CreateColliderDescProps extends ColliderProps {}
+export interface CreateColliderDescProps extends ColliderProps {
+  /**
+   * @description The {@link RigidBody}.
+   */
+  rigidBody: RigidBody
+}
 
 export interface CreateColliderProps extends CreateColliderDescProps {
-  /** @description The Collider shape. {@link ColliderShape}. */
-  rigidBody: RigidBody
+
   /**
    * @description The Rapier {@link World} context.
    *

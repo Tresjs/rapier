@@ -5,7 +5,6 @@ import {
   IcosahedronGeometry,
   Mesh,
   Object3D,
-  Quaternion,
   SphereGeometry,
   Vector3,
 } from 'three'
@@ -101,26 +100,31 @@ const getColliderSizingsFromObject = (object?: TresObject3D) => {
  * @description Create a {@link ColliderDesc} shape based on the given
  * {@link CreateColliderDescProps}
  *
+ * If not shape or sizes are not specified,
+ * it will try to create a shape based on the object's geometry.
+ *
+ * Will create a {@link ColliderDesc['cuboid']} colliderDesc by default.
+ *
  * @param props {@link CreateColliderDescProps}
  *
  * @see https://rapier.rs/javascript3d/classes/ColliderDesc.html
  * @see https://rapier.rs/docs/user_guides/javascript/colliders
  */
 export const createColliderDesc = (props: CreateColliderDescProps) => {
-  const { object, args, shape, scale } = props
+  const { object, args, shape, scale, rigidBody } = props
   const position: Vector3Like
     = (props.position && {
       x: props.position[0] ?? 0,
       y: props.position[1] ?? 0,
       z: props.position[2] ?? 0,
     })
-    ?? object?.position ?? VECTOR_ZERO
+    ?? object?.position ?? rigidBody.translation() ?? VECTOR_ZERO
   const rotation: QuaternionLike = (props.rotation && ({
     x: props.rotation[0] ?? 0,
     y: props.rotation[1] ?? 0,
     z: props.rotation[2] ?? 0,
     w: props.rotation[3] ?? 0,
-  })) ?? (object?.rotation && new Quaternion().setFromEuler(object?.rotation)) ?? QUATERNION_ZERO
+  })) ?? object?.quaternion ?? rigidBody.rotation() ?? QUATERNION_ZERO
   const sizes = getColliderSizingsFromObject(object)
   const halfWidth = (args?.[0] ?? sizes.halfWidth) * (scale?.[0] ?? 1)
   const halfHeight = (args?.[1] ?? sizes.halfHeight) * (scale?.[1] ?? 1)
@@ -210,8 +214,8 @@ export const createColliderPropsFromObject = (
   shape: ColliderShape,
 ): ColliderProps => {
   const { position } = object
+  const rotation = object?.quaternion
   const sizes = getColliderSizingsFromObject(object)
-  const rotation = new Quaternion().setFromEuler(object.rotation)
 
   return {
     shape,

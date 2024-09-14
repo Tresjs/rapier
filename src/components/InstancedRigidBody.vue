@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { type TresObject, useLoop } from '@tresjs/core'
 import { InstancedMesh, Object3D } from 'three'
-import { shallowRef, watch } from 'vue'
+import { onUpdated, shallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { MATRIX_ZERO, QUATERNION_ZERO, VECTOR_ZERO } from '../constants/'
@@ -41,6 +41,7 @@ watch(bodyGroup, (group) => {
     matrix.decompose(position, quaternion, scale)
 
     const rigidBodyInfo: RigidBodyContext = {
+      ...props,
       ...createRigidBody({
         object: child,
         rigidBodyType: props.type,
@@ -50,15 +51,19 @@ watch(bodyGroup, (group) => {
       group,
       colliders: [],
     }
+
     rigidBodyInfo.rigidBody.setTranslation(position, true)
     rigidBodyInfo.rigidBody.setRotation(quaternion, true)
 
-    const colliderInfo = createCollider({
+    const colliderInfo = {
+      ...createCollider({
+        object: child,
+        shape: props.collider,
+        rigidBody: rigidBodyInfo.rigidBody,
+        world,
+      }),
       object: child,
-      shape: props.collider,
-      rigidBody: rigidBodyInfo.rigidBody,
-      world,
-    })
+    }
 
     rigidBodyInfo.colliders.push(colliderInfo)
     bodiesContexts.value.push(rigidBodyInfo)
@@ -95,6 +100,12 @@ onBeforeRender(() => {
 
   child.instanceMatrix.needsUpdate = true
   child.computeBoundingSphere()
+})
+
+onUpdated(() => {
+  for (const context of bodiesContexts.value) {
+    context?.rigidBody.wakeUp()
+  }
 })
 </script>
 

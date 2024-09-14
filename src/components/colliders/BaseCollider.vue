@@ -23,20 +23,30 @@ defineExpose({
 })
 
 // TODO: Correctly wait for the physics state to be available
-watch(bodyContext, state => setTimeout(() => {
-  if (colliderInfos.value || !state) { return }
-
-  colliderInfos.value = createCollider({
-    ...props,
-    object: props.object ?? state.group,
-    rigidBody: state.rigidBody,
-    world,
+watch(bodyContext, (state) => {
+  const isColliderExist = !!state?.colliders.find((item) => {
+    return item.object.uuid === props.object?.uuid
   })
-  instance.value = colliderInfos.value.collider
-  instanceDesc.value = colliderInfos.value.colliderDesc
 
-  state.colliders.push(colliderInfos.value)
-}, 0), { immediate: true })
+  if (!state || isColliderExist) { return }
+
+  const object = props.object ?? state.group
+  const infos = {
+    ...createCollider({
+      ...props,
+      object,
+      rigidBody: state.rigidBody,
+      world,
+    }),
+    object,
+  }
+
+  instance.value = infos.collider
+  instanceDesc.value = infos.colliderDesc
+  colliderInfos.value = infos
+
+  state.colliders.push(infos)
+}, { immediate: true })
 
 // TODO: Correctly remove the state from the map and physics world when the component is unmounted
 onUnmounted(() => {

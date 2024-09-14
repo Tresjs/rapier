@@ -39,8 +39,13 @@ const { gravityY } = useControls({
           </TresMesh>
         </RigidBody>
 
-        <RigidBody v-for="ball in [1, 2, 3, 4, 5, 6, 7] " :key="ball" collider="ball">
-          <TresMesh :position="[Math.random() * 2, Math.random() * 2 + 8, Math.random() * 2]">
+        <RigidBody
+          v-for="i in Array.from(Array(7)) "
+          :key="i"
+          collider="ball"
+          :position="[Math.random() * 2, Math.random() * 2 + 8, Math.random() * 2]"
+        >
+          <TresMesh>
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>

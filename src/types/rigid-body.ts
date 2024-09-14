@@ -33,9 +33,12 @@ export interface RigidBodyColliderContext {
 
   /** @description Context {@link Collider}. */
   collider: Collider
+
+  /** @description Context {@Link TresObject3D} group. */
+  object: TresObject3D
 }
 
-export interface RigidBodyContext {
+export interface RigidBodyContext extends RigidBodyProps {
   /**  @description Context {@link RigidBodyDesc}. */
   rigidBodyDesc: RigidBodyDesc
 
@@ -44,9 +47,6 @@ export interface RigidBodyContext {
 
   /** @description Context {@Link TresObject3D} group. */
   group: TresObject3D
-
-  /** @description Context {@Link ColliderShape}. */
-  collider: ColliderShape | false
 
   /** @description Context {@Link RigidBodyColliderContext}. */
   colliders: RigidBodyColliderContext[]

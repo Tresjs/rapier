@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type TresObject, useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
-import { defineExpose, onUnmounted, provide, shallowRef, watch } from 'vue'
+import { defineExpose, onUnmounted, onUpdated, provide, shallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../utils'
@@ -35,19 +35,15 @@ watch(bodyGroup, (group) => {
   if (!(group instanceof Object3D) || bodyContext.value) { return }
 
   const newPhysicsState: RigidBodyContext = {
+    ...props,
     ...createRigidBody({
       object: group,
       rigidBodyType: props.type,
       world,
     }),
     group,
-    collider: props.collider,
     colliders: [],
   }
-
-  bodyContext.value = newPhysicsState
-  instance.value = newPhysicsState.rigidBody
-  instanceDesc.value = newPhysicsState.rigidBodyDesc
 
   if (props.collider !== false) {
     const colliders = []
@@ -58,6 +54,10 @@ watch(bodyGroup, (group) => {
 
     autoColliderProps.value = colliders
   }
+
+  instance.value = newPhysicsState.rigidBody
+  instanceDesc.value = newPhysicsState.rigidBodyDesc
+  bodyContext.value = newPhysicsState
 }, { once: true })
 
 onBeforeRender(() => {
@@ -65,10 +65,14 @@ onBeforeRender(() => {
   if (!context) { return }
 
   const position = context.rigidBody.translation()
-  context.group.position.set(position.x, position.y, position.z)
-
   const rotation = context.rigidBody.rotation()
+
+  context.group.position.set(position.x, position.y, position.z)
   context.group.quaternion.set(rotation.x, rotation.y, rotation.z, rotation.w)
+})
+
+onUpdated(() => {
+  bodyContext.value?.rigidBody.wakeUp()
 })
 
 // TODO: Correctly remove the state from the map and physics world when the component is unmounted
