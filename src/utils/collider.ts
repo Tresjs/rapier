@@ -27,6 +27,10 @@ import type {
 /**
  * @description Get the collider sizings from the given object.
  *
+ * Will try to get the bounding-box if the object doesn't have a geometry.
+ *
+ * @param object {@link TresObject3D}
+ *
  * @internal
  */
 const getColliderSizingsFromObject = (object?: TresObject3D) => {
@@ -97,13 +101,12 @@ const getColliderSizingsFromObject = (object?: TresObject3D) => {
 }
 
 /**
- * @description Create a {@link ColliderDesc} shape based on the given
- * {@link CreateColliderDescProps}
+ * @description Create a {@link ColliderDesc} shape based on the given properties
  *
- * If not shape or sizes are not specified,
- * it will try to create a shape based on the object's geometry.
+ * If the shape or sizes are not specified,
+ * it will try to create a shape based on the object's geometry or the bounding-box.
  *
- * Will create a {@link ColliderDesc['cuboid']} colliderDesc by default.
+ * Will create a {@link ColliderDesc.cuboid Cuboid} by default.
  *
  * @param props {@link CreateColliderDescProps}
  *
@@ -131,7 +134,6 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
   const halfDepth = (args?.[2] ?? sizes.halfDepth) * (scale?.[2] ?? 1)
   const radius = (args?.[0] ?? sizes.radius) * (scale?.[0] ?? 1)
 
-  // NOTE: Create a default `Cuboid` collider attached to the dynamic rigidBody.
   let colliderDesc = ColliderDesc.cuboid(
     halfWidth ?? 1,
     halfHeight ?? 1,
@@ -207,7 +209,10 @@ export const createCollider = (
 }
 
 /**
- * @description Create {@link ColliderProps} from the given object.
+ * @description Create a {@link ColliderProps} from the given object.
+ *
+ * @param object {@link TresObject3D}
+ * @param shape {@link ColliderShape}
  */
 export const createColliderPropsFromObject = (
   object: TresObject3D,
