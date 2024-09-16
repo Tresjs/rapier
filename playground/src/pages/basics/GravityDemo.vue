@@ -40,14 +40,14 @@ const { gravityY } = useControls({
         </RigidBody>
 
         <RigidBody v-for="i in Array.from(Array(10).keys()) " :key="i" collider="ball">
-          <TresMesh :position="[Math.random() * 2, (Math.random() * (i / 4)) + 5, Math.random() * 2]">
+          <TresMesh :position="[Math.random() * (i / 2), Math.random() + 8, Math.random() * (i / 2)]">
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
 
         <RigidBody type="fixed">
-          <TresMesh :position="[0, 0, 0]">
+          <TresMesh>
             <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
             <TresMeshBasicMaterial color="#f4f4f4" />
           </TresMesh>
