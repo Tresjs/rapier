@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onUnmounted, type ShallowRef, shallowRef, watch } from 'vue'
+import { inject, nextTick, onUnmounted, type ShallowRef, shallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../../composables'
 import { createCollider } from '../../utils/collider'
@@ -22,8 +22,9 @@ defineExpose({
   colliderDesc: instanceDesc,
 })
 
-// TODO: Correctly wait for the physics state to be available
-watch(bodyContext, (state) => {
+watch(bodyContext, async (state) => {
+  await nextTick()
+
   const isColliderExist = !!state?.colliders.find((item) => {
     return item.object.uuid === props.object?.uuid
   })
@@ -48,11 +49,12 @@ watch(bodyContext, (state) => {
   state.colliders.push(infos)
 }, { immediate: true })
 
-// TODO: Correctly remove the state from the map and physics world when the component is unmounted
 onUnmounted(() => {
-  if (bodyContext.value && colliderInfos.value) {
-    // Dispose of the collider
-  }
+  if (!bodyContext.value || !colliderInfos.value?.collider) { return }
+
+  world.removeCollider(colliderInfos.value.collider, false)
+
+  colliderInfos.value = undefined
 })
 </script>
 

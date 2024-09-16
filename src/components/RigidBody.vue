@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type TresObject, useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
-import { defineExpose, onUnmounted, onUpdated, provide, shallowRef, watch } from 'vue'
+import { nextTick, onUnmounted, onUpdated, provide, shallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../utils'
@@ -31,7 +31,9 @@ defineExpose({
   group: bodyGroup,
 })
 
-watch(bodyGroup, (group) => {
+watch(bodyGroup, async (group) => {
+  await nextTick()
+
   if (!(group instanceof Object3D) || bodyContext.value) { return }
 
   const newPhysicsState: RigidBodyContext = {
@@ -75,9 +77,14 @@ onUpdated(() => {
   bodyContext.value?.rigidBody.wakeUp()
 })
 
-// TODO: Correctly remove the state from the map and physics world when the component is unmounted
 onUnmounted(() => {
-  if (bodyGroup.value instanceof Object3D) { /* Dispose of the rigid body */ }
+  if (!bodyContext.value) { return }
+
+  world.removeRigidBody(bodyContext.value.rigidBody)
+
+  bodyContext.value.colliders.forEach((collider) => {
+    world.removeCollider(collider.collider, false)
+  })
 
   bodyContext.value = undefined
 })
@@ -92,6 +99,6 @@ onUnmounted(() => {
       :args="_props.args"
       :object="_props.object"
     />
-    <slot></slot>
+    <slot v-once></slot>
   </TresGroup>
 </template>

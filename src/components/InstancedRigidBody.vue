@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { type TresObject, useLoop } from '@tresjs/core'
 import { InstancedMesh, Object3D } from 'three'
-import { onUpdated, shallowRef, watch } from 'vue'
+import { onUnmounted, onUpdated, shallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { MATRIX_ZERO, QUATERNION_ZERO, VECTOR_ZERO } from '../constants/'
@@ -68,7 +68,7 @@ watch(bodyGroup, (group) => {
     rigidBodyInfo.colliders.push(colliderInfo)
     bodiesContexts.value.push(rigidBodyInfo)
   }
-})
+}, { once: true })
 
 onBeforeRender(() => {
   const child: InstancedMesh | undefined = bodyGroup.value?.children[0]
@@ -107,10 +107,24 @@ onUpdated(() => {
     context?.rigidBody.wakeUp()
   }
 })
+
+onUnmounted(() => {
+  if (!bodiesContexts.value) { return }
+
+  bodiesContexts.value.forEach((context) => {
+    world.removeRigidBody(context.rigidBody)
+
+    context.colliders.forEach((collider) => {
+      world.removeCollider(collider.collider, false)
+    })
+  })
+
+  bodiesContexts.value = []
+})
 </script>
 
 <template>
   <TresGroup ref="bodyGroup">
-    <slot></slot>
+    <slot v-once></slot>
   </TresGroup>
 </template>
