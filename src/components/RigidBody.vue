@@ -5,7 +5,7 @@ import { nextTick, onUnmounted, onUpdated, provide, shallowRef, watch } from 'vu
 import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../composables'
-import { createColliderPropsFromObject, createRigidBody } from '../utils'
+import { createColliderPropsFromObject, createRigidBody } from '../core'
 import { BaseCollider } from './colliders'
 import type { ColliderProps, ExposedRigidBody, RigidBodyContext, RigidBodyProps } from '../types'
 

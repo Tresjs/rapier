@@ -5,7 +5,7 @@ import { onUnmounted, onUpdated, shallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { MATRIX_ZERO, QUATERNION_ZERO, VECTOR_ZERO } from '../constants/'
-import { createCollider, createRigidBody } from '../utils'
+import { createCollider, createRigidBody } from '../core'
 import type { InstancedRigidBodyProps, RigidBodyContext } from '../types'
 
 const props = withDefaults(defineProps<Partial<InstancedRigidBodyProps>>(), {
