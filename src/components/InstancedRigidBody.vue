@@ -19,6 +19,10 @@ const { world } = useRapierContext()
 const bodyGroup = shallowRef<TresObject>()
 const bodiesContexts = shallowRef<RigidBodyContext[]>([])
 
+defineExpose({
+  contexts: bodiesContexts,
+})
+
 watch(bodyGroup, (group) => {
   if (!(group instanceof Object3D)) { return }
 
