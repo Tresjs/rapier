@@ -1,19 +1,29 @@
 <script setup lang="ts">
 import { useLoop } from '@tresjs/core'
-import { Object3D } from 'three'
+import { Object3D, Vector3 } from 'three'
 import { nextTick, onUnmounted, onUpdated, provide, shallowRef, watch } from 'vue'
-import type { ShallowRef } from 'vue'
 
+import type { ShallowRef } from 'vue'
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../core'
+import { makePropsWatcher } from '../utils/props'
 import { BaseCollider } from './colliders'
 import type { ColliderProps, ExposedRigidBody, RigidBodyContext, RigidBodyProps } from '../types'
 
 const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   type: 'dynamic',
   collider: 'cuboid',
+  gravityScale: 1,
+  linearDamping: 0,
+  angularDamping: 0,
+  dominanceGroup: 0,
+  linvel: () => new Vector3(0, 0, 0),
+  angvel: () => new Vector3(0, 0, 0),
+  enabledRotations: () => ({ x: true, y: true, z: true }),
+  enabledTranslations: () => ({ x: true, y: true, z: true }),
+  lockTranslations: false,
+  lockRotations: false,
 })
-
 const { onBeforeRender } = useLoop()
 const { world } = useRapierContext()
 
@@ -62,6 +72,27 @@ watch(bodyGroup, async (group) => {
   instanceDesc.value = newPhysicsState.rigidBodyDesc
   bodyContext.value = newPhysicsState
 }, { once: true })
+
+// PROPS
+makePropsWatcher(props, [
+  'gravityScale',
+  'linearDamping',
+  'angularDamping',
+  'dominanceGroup',
+  'linvel',
+  'angvel',
+  'enabledRotations',
+  'enabledTranslations',
+], instance)
+
+watch(() => props.lockTranslations, (_lockTranslations) => {
+  if (!instance.value) { return }
+  instance.value.lockTranslations(_lockTranslations, true)
+}, { immediate: true })
+watch(() => props.lockRotations, (_lockRotations) => {
+  if (!instance.value) { return }
+  instance.value.lockTranslations(_lockRotations, true)
+}, { immediate: true })
 
 onBeforeRender(() => {
   const context = bodyContext.value

@@ -1,5 +1,5 @@
 import type { Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
-import type { TresObject3D } from '@tresjs/core'
+import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
 
 import type { ColliderShape } from './collider'
 
@@ -10,6 +10,7 @@ export type RigidBodyType =
   | 'kinematicVelocity'
   | 'fixed'
 
+export interface enableBolean { x: boolean, y: boolean, z: boolean }
 export interface RigidBodyProps {
   /** @description Set the `RigidBody` type. */
   type: RigidBodyType
@@ -20,6 +21,56 @@ export interface RigidBodyProps {
    * Pass `false` to disable the auto colliders.
    */
   collider: ColliderShape | false
+  /**
+   * @description Set the gravity of the`RigidBody`.
+   * @default 1
+   */
+  gravityScale: number
+  /**
+   * @description Set the gravity of the`RigidBody`.
+   * @default { x: 0, y: 0, z: 0 }
+   */
+  linearVelocity: TresVector3 | VectorCoordinates
+  /**
+   * @description Set the gravity of the`RigidBody`.
+   * @default { x: 0, y: 0, z: 0 }
+   */
+  angularVelocity: TresVector3 | VectorCoordinates
+  /**
+   * @description Set the linear damping of the`RigidBody`.
+   * @default 1
+   */
+  linearDamping: number
+  /**
+   * @description Set the angular damping of the`RigidBody`.
+   * @default 1
+   */
+  angularDamping: number
+  /**
+   * @description Set the dominance group of the`RigidBody`.
+   * @default 1
+   */
+  dominanceGroup: number
+  /**
+   * @description Set the dominance group of the`RigidBody`.
+   * @default { x: true, y: true, z: true }
+   */
+  enabledRotations: enableBolean
+  /**
+   * @description Set the dominance group of the`RigidBody`.
+   * @default { x: true, y: true, z: true }
+   */
+  enableTranslations: enableBolean
+  /**
+   * @description Locks the translations of the `RigidBody`.
+   * @default false
+   */
+  lockTranslations: boolean
+  /**
+   * @description Locks the rotations of the `RigidBody`.
+   * @default false
+   */
+  lockRotations: boolean
 }
 
 export interface ExposedRigidBody {
