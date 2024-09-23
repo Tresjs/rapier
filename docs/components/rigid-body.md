@@ -98,8 +98,6 @@ const rigidCubeRef = shallowRef(null)
 
 const jumpCube = () => {
   if (rigidCubeRef.value) {
-    // if you mass is 1 your object will not move
-    rigidCubeRef.value.rigidBodyInfos.rigidBodyDesc.mass = 5
     rigidCubeRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
   }
 }
@@ -140,6 +138,7 @@ SOON
 | **type**                | `rigidBody` type                     | `dynamic`                      |
 | **collider**            | `automatic collider                  | `cuboid`                       |
 | **gravityScale**        | gravity for the `rigidBody`          | `1`                            |
+| **additionalMass**      | add extra mass to the `rigidBody`    | `0`                            |
 | **linearDamping**       | set the linear damping               | `0`                            |
 | **angularDamping**      | set the angular damping              | `0`                            |
 | **dominanceGroup**      | set the dominance group              | `0`                            |
@@ -161,8 +160,8 @@ use[Template ref](https://vuejs.org/guide/essentials/template-refs.html#template
 ```
  {
   instance: rigidBodyInstance,
-  rigidBodyInfos,
-  collider: colliderInfos,
+  rigidBodyDesc,
+  context: colliderInfos,
   group: parentObject,
 }
 ```

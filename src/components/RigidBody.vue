@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useLoop } from '@tresjs/core'
-import { Object3D, Vector3 } from 'three'
+import { Object3D } from 'three'
 import { nextTick, onUnmounted, onUpdated, provide, shallowRef, watch } from 'vue'
 
 import type { ShallowRef } from 'vue'
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../core'
-import { makePropsWatcher } from '../utils/props'
+import { makePropsWatcherRB } from '../utils/props'
 import { BaseCollider } from './colliders'
 import type { ColliderProps, ExposedRigidBody, RigidBodyContext, RigidBodyProps } from '../types'
 
@@ -14,11 +14,12 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   type: 'dynamic',
   collider: 'cuboid',
   gravityScale: 1,
+  additionalMass: 0,
   linearDamping: 0,
   angularDamping: 0,
   dominanceGroup: 0,
-  linvel: () => new Vector3(0, 0, 0),
-  angvel: () => new Vector3(0, 0, 0),
+  linvel: () => ({ x: 0, y: 0, z: 0 }),
+  angvel: () => ({ x: 0, y: 0, z: 0 }),
   enabledRotations: () => ({ x: true, y: true, z: true }),
   enabledTranslations: () => ({ x: true, y: true, z: true }),
   lockTranslations: false,
@@ -74,8 +75,9 @@ watch(bodyGroup, async (group) => {
 }, { once: true })
 
 // PROPS
-makePropsWatcher(props, [
+makePropsWatcherRB(props, [
   'gravityScale',
+  'additionalMass',
   'linearDamping',
   'angularDamping',
   'dominanceGroup',
@@ -85,14 +87,14 @@ makePropsWatcher(props, [
   'enabledTranslations',
 ], instance)
 
-watch(() => props.lockTranslations, (_lockTranslations) => {
+watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }
   instance.value.lockTranslations(_lockTranslations, true)
-}, { immediate: true })
-watch(() => props.lockRotations, (_lockRotations) => {
+})
+watch([() => props.lockRotations, instance], ([_lockRotations, _]) => {
   if (!instance.value) { return }
-  instance.value.lockTranslations(_lockRotations, true)
-}, { immediate: true })
+  instance.value.lockRotations(_lockRotations, true)
+})
 
 onBeforeRender(() => {
   const context = bodyContext.value

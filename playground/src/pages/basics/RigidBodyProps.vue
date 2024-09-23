@@ -16,16 +16,24 @@ const gl = {
 }
 
 const rigidTorusRef = shallowRef<ExposedRigidBody>(null)
+const rigidBoxRef = shallowRef<ExposedRigidBody>(null)
 
 const jump = () => {
   if (!rigidTorusRef.value) { return }
   rigidTorusRef.value.instance.applyImpulse({ x: 0, y: 35, z: 0 }, true)
 }
 
-const { gravityScale, linearDamping } = useControls({
+const rotate = () => {
+  if (!rigidBoxRef.value) { return }
+  rigidBoxRef.value.instance.applyTorqueImpulse({ x: 3, y: 5, z: 0 }, true)
+}
+
+const { gravityScale, linearDamping, angularDamping, lockT, linvelX } = useControls({
   gravityScale: { value: 2.5, min: -10, max: 10, step: 1 },
-  linearDamping: { value: 0, min: 0, max: 10, step: 1 },
-  enabledTranslationsY: true,
+  linearDamping: { value: 0, min: -10, max: 10, step: 1 },
+  angularDamping: { value: 0, min: -10, max: 10, step: 1 },
+  linvelX: { value: 0, min: -10, max: 10, step: 1 },
+  lockT: true,
 })
 
 // TODO test locks and enabledTranslations, check docs
@@ -39,22 +47,47 @@ const { gravityScale, linearDamping } = useControls({
 
     <Suspense>
       <Physics debug>
+        <!-- TORUS -->
         <RigidBody
           ref="rigidTorusRef"
           :gravityScale="gravityScale.value"
           :linearDamping="linearDamping.value"
-          lockTranslations
+          :angularDamping="angularDamping.value"
+          :enabledTranslations="{ x: true, y: true, z: true }"
+          :lockTranslations="lockT.value"
         >
-          <TresMesh :position="[0, 8, 0]" @click="jump">
+          <TresMesh :position="[4, 8, 0]" @click="jump">
             <TresTorusGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
 
         <RigidBody>
-          <TresMesh :position="[2, 8, 0]">
+          <TresMesh :position="[0, 8, 0]">
             <TresTorusGeometry />
             <TresMeshNormalMaterial />
+          </TresMesh>
+        </RigidBody>
+
+        <!-- BOX -->
+
+        <RigidBody
+          ref="rigidBoxRef"
+          :gravityScale="-0.01"
+          :additionalMass="50"
+          :enabledRotations="{ x: true, y: false, z: true }"
+          :linvel="{ x: linvelX.value, y: 0, z: 0 }"
+        >
+          <TresMesh :position="[4, 2, 5]" @click="rotate">
+            <TresBoxGeometry />
+            <TresMeshBasicMaterial :color="0xFF0000" />
+          </TresMesh>
+        </RigidBody>
+
+        <RigidBody>
+          <TresMesh :position="[0, 8, 5]">
+            <TresBoxGeometry />
+            <TresMeshBasicMaterial :color="0xFF0000" />
           </TresMesh>
         </RigidBody>
 

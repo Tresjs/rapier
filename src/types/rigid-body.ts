@@ -20,57 +20,62 @@ export interface RigidBodyProps {
    *
    * Pass `false` to disable the auto colliders.
    */
-  collider: ColliderShape | false
+  collider?: ColliderShape | false
   /**
    * @description Set the gravity of the`RigidBody`.
    * @default 1
    */
-  gravityScale: number
+  gravityScale?: number
+  /**
+   * @description add extra mass to the`RigidBody`.
+   * @default 1
+   */
+  additionalMass?: number
   /**
    * @description Set the gravity of the`RigidBody`.
    * @default { x: 0, y: 0, z: 0 }
    */
-  linearVelocity: TresVector3 | VectorCoordinates
+  linvel?: TresVector3 | VectorCoordinates
   /**
    * @description Set the gravity of the`RigidBody`.
    * @default { x: 0, y: 0, z: 0 }
    */
-  angularVelocity: TresVector3 | VectorCoordinates
+  angvel?: TresVector3 | VectorCoordinates
   /**
    * @description Set the linear damping of the`RigidBody`.
    * @default 1
    */
-  linearDamping: number
+  linearDamping?: number
   /**
    * @description Set the angular damping of the`RigidBody`.
    * @default 1
    */
-  angularDamping: number
+  angularDamping?: number
   /**
    * @description Set the dominance group of the`RigidBody`.
    * @default 1
    */
-  dominanceGroup: number
+  dominanceGroup?: number
   /**
    * @description Set the dominance group of the`RigidBody`.
    * @default { x: true, y: true, z: true }
    */
-  enabledRotations: enableBolean
+  enabledRotations?: enableBolean
   /**
    * @description Set the dominance group of the`RigidBody`.
    * @default { x: true, y: true, z: true }
    */
-  enableTranslations: enableBolean
+  enableTranslations?: enableBolean
   /**
    * @description Locks the translations of the `RigidBody`.
    * @default false
    */
-  lockTranslations: boolean
+  lockTranslations?: boolean
   /**
    * @description Locks the rotations of the `RigidBody`.
    * @default false
    */
-  lockRotations: boolean
+  lockRotations?: boolean
 }
 
 export interface ExposedRigidBody {
