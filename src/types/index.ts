@@ -1,3 +1,4 @@
+export * from './boolean'
 export * from './collider'
 export * from './physics'
 export * from './rapier'

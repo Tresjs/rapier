@@ -1,6 +1,7 @@
 import type { Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
 import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
 
+import type { enableBolean } from './boolean'
 import type { ColliderShape } from './collider'
 
 /** @description Tres Rapier supported `RigidBody` types. */
@@ -10,7 +11,6 @@ export type RigidBodyType =
   | 'kinematicVelocity'
   | 'fixed'
 
-export interface enableBolean { x: boolean, y: boolean, z: boolean }
 export interface RigidBodyProps {
   /** @description Set the `RigidBody` type. */
   type: RigidBodyType
