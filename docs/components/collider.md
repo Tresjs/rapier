@@ -12,16 +12,16 @@
 | **density**     | Restitution controls how elastic (aka. bouncy) a contact is. (automatic-collider)                             | `0`       |
 | **restitution** | The collider density. If non-zero the collider's mass and angular inertia will be added. (automatic-collider) | `1`       |
 
-:::info The `colliders` instance has many other methods, please check the
-[official docs](https://rapier.rs/docs/api/javascript/JavaScript3D/) for a
-complete list, if you need them, you can
-use[Template ref](https://vuejs.org/guide/essentials/template-refs.html#template-refs).
+:::info
+You can access the [Collider](https://rapier.rs/docs/user_guides/javascript/colliders) instance
+which offers full control over all the properties & methods available
+by using [Template refs](https://vuejs.org/guide/essentials/template-refs.html#template-refs).
 :::
 
 ## Expose object
 
 ```
- {
+{
   instance,
   colliderDesc,
 }
