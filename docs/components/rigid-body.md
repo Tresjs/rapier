@@ -133,21 +133,25 @@ SOON
 
 ## Props
 
-| Prop                    | Description                          | Default                        |
-| :---------------------- | :----------------------------------- | ------------------------------ |
-| **type**                | `rigidBody` type                     | `dynamic`                      |
-| **collider**            | `automatic collider                  | `cuboid`                       |
-| **gravityScale**        | gravity for the `rigidBody`          | `1`                            |
-| **additionalMass**      | add extra mass to the `rigidBody`    | `0`                            |
-| **linearDamping**       | set the linear damping               | `0`                            |
-| **angularDamping**      | set the angular damping              | `0`                            |
-| **dominanceGroup**      | set the dominance group              | `0`                            |
-| **linvel**              | linear velocity                      | `x: 0, y: 0, z: 0`             |
-| **angvel**              | angular velocity                     | `x: 0, y: 0, z: 0`             |
-| **enabledRotations**    | enable rotations in specific axis    | `{x: true, y: true, z: true }` |
-| **enabledTranslations** | enable translations in specific axis | `{x: true, y: true, z: true }` |
-| **lockTranslations**    | Lock all translations                | `false`                        |
-| **lockRotations**       | Lock all rotations                   | `false`                        |
+| Prop                    | Description                                                                                                   | Default                        |
+| :---------------------- | :------------------------------------------------------------------------------------------------------------ | ------------------------------ |
+| **type**                | `rigidBody` type                                                                                              | `dynamic`                      |
+| **collider**            | automatic collider                                                                                            | `cuboid`                       |
+| **gravityScale**        | gravity for the `rigidBody`                                                                                   | `1`                            |
+| **additionalMass**      | add extra mass to the `rigidBody`                                                                             | `0`                            |
+| **linearDamping**       | set the linear damping                                                                                        | `0`                            |
+| **angularDamping**      | set the angular damping                                                                                       | `0`                            |
+| **dominanceGroup**      | set the dominance group                                                                                       | `0`                            |
+| **linvel**              | linear velocity                                                                                               | `x: 0, y: 0, z: 0`             |
+| **angvel**              | angular velocity                                                                                              | `x: 0, y: 0, z: 0`             |
+| **enabledRotations**    | enable rotations in specific axis                                                                             | `{x: true, y: true, z: true }` |
+| **enabledTranslations** | enable translations in specific axis                                                                          | `{x: true, y: true, z: true }` |
+| **lockTranslations**    | Lock all translations                                                                                         | `false`                        |
+| **lockRotations**       | Lock all rotations                                                                                            | `false`                        |
+| **friction**            | The friction coefficient of this collider. (automatic-collider)                                               | `0.5`                          |
+| **mass**                | Mass of the collider. (automatic-collider)                                                                    | `1`                            |
+| **density**             | Restitution controls how elastic (aka. bouncy) a contact is. (automatic-collider)                             | `0`                            |
+| **restitution**         | The collider density. If non-zero the collider's mass and angular inertia will be added. (automatic-collider) | `1`                            |
 
 :::info The `rigidBody` instance has many other functions, please check the
 [official docs](https://rapier.rs/docs/api/javascript/JavaScript3D/) for a
