@@ -1,4 +1,4 @@
-import type { Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
+import type { ActiveCollisionTypes, Collider, ColliderDesc, RigidBody, RigidBodyDesc, World } from '@dimforge/rapier3d-compat'
 import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
 
 import type { enableBolean } from './boolean'
@@ -76,29 +76,50 @@ export interface RigidBodyProps {
    * @default false
    */
   lockRotations?: boolean
+  /**
+   * @description Enables continuous collisions detection.
+   * @default false
+   */
+  enableCcd?: boolean
 
   // AUTOMATIC COLLIDERS
 
   /**
    * @description The friction coefficient of this collider.
    * @default 0.5
-   */
+  */
   friction?: number
   /**
-   * @description mass.
-   * @default 1
-   */
+  * @description mass.
+  * @default 1
+ */
   mass?: number
   /**
-   * @description Restitution controls how elastic (aka. bouncy) a contact is.
-   * @default 0
-   */
+ * @description Restitution controls how elastic (aka. bouncy) a contact is.
+ * @default 0
+*/
   restitution?: number
   /**
-   * @description The collider density. If non-zero the collider's mass and angular inertia will be added.
-   * @default 1.0
-   */
+ * @description The collider density. If non-zero the collider's mass and angular inertia will be added.
+ * @default 1.0
+*/
   density?: number
+  /**
+ * @description Enables collisions event.
+ * @default false
+ */
+  activeCollision?: boolean
+  /**
+ * @description To set the collision type.
+ * @default ActiveCollisionTypes.DEFAULT
+*/
+  activeCollisionTypes?: ActiveCollisionTypes.DEFAULT
+  /**
+ * @description To set the collision group.
+ * @default undefined
+*/
+  collisionGroups?: undefined | number
+
 }
 
 export interface ExposedRigidBody {
