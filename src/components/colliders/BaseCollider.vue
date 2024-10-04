@@ -61,6 +61,11 @@ watch(bodyContext, async (state) => {
 // TODO: collisionGroups
 makePropsWatcherCL(props, ['friction', 'restitution', 'density', 'mass', 'activeCollisionTypes'], colliderInfos)
 
+watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
+  if (!colliderInfos.value?.collider || !_collisionGroups) { return }
+  colliderInfos.value.collider.setCollisionGroups(_collisionGroups)
+})
+
 watch([() => props.activeCollision, colliderInfos], ([_activeCollision]) => {
   if (!colliderInfos.value?.collider) { return }
   if (_activeCollision) {

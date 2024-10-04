@@ -79,9 +79,9 @@ export interface ColliderProps {
    */
   activeCollisionTypes?: ActiveCollisionTypes.DEFAULT
   /**
- * @description To set the collision group.
- * @default undefined
-*/
+   * @description To set the collision group.
+   * @default undefined
+   */
   collisionGroups?: undefined | number
 }
 
