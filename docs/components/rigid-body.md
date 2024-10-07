@@ -26,7 +26,8 @@ that you want to attach.
     <TresTorusGeometry />
     <TresMeshNormalMaterial />
   </TresMesh>
-</RigidBody>
+</RigidBody>
+
 ```
 
 ## Types
@@ -41,7 +42,8 @@ A basic floor example with type fixed:
     <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
     <TresMeshBasicMaterial color="#f4f4f4" />
   </TresMesh>
-</RigidBody>
+</RigidBody>
+
 ```
 
 ### Available types
@@ -53,11 +55,9 @@ A basic floor example with type fixed:
 | `KinematicPositionBased` | Indicates that the body position must not be altered by the physics engine.                                  |
 | `KinematicVelocityBased` | Indicates that the body velocity must not be altered by the physics engine.                                  |
 
-:::info
-Both position-based and velocity-based kinematic bodies are mostly the
+:::info Both position-based and velocity-based kinematic bodies are mostly the
 same. Choosing between both is mostly a matter of preference between
-position-based control and velocity-based control.
-:::
+position-based control and velocity-based control. :::
 
 More info at
 [Rigid-body type](https://rapier.rs/docs/user_guides/javascript/rigid_bodies#rigid-body-type)
@@ -155,7 +155,8 @@ colliders). Then you can start listening for events in `@collision-enter` and/or
     <TresMeshNormalMaterial />
   </TresMesh>
 </RigidBody>
-...
+...
+
 ```
 
 - You can set continuous collision detection for fast moving object, passing as
