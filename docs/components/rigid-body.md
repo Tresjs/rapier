@@ -1,9 +1,10 @@
 # RigidBody
 
-:::info The information in this page is a summary of the RigidBody instance,
+:::info
+The information in this page is a summary of the RigidBody instance,
 please check the
 [complete documentation](https://rapier.rs/docs/user_guides/javascript/rigid_bodies)
-for more info :::
+:::
 
 The real-time simulation of rigid-bodies subjected to forces and contacts is the
 main feature of a physics engine for video-games, robotics, or animation.
@@ -52,9 +53,11 @@ A basic floor example with type fixed:
 | `KinematicPositionBased` | Indicates that the body position must not be altered by the physics engine.                                  |
 | `KinematicVelocityBased` | Indicates that the body velocity must not be altered by the physics engine.                                  |
 
-:::info Both position-based and velocity-based kinematic bodies are mostly the
+:::info
+Both position-based and velocity-based kinematic bodies are mostly the
 same. Choosing between both is mostly a matter of preference between
-position-based control and velocity-based control. :::
+position-based control and velocity-based control.
+:::
 
 More info at
 [Rigid-body type](https://rapier.rs/docs/user_guides/javascript/rigid_bodies#rigid-body-type)
@@ -62,7 +65,7 @@ More info at
 ## Automatic Colliders
 
 `RigidBody` comes with automatic colliders, if you need a custom Collider please
-check [Colliders components](/components/collider), you can specify a set of
+check [Custom Colliders](/components/custom-collider), you can specify a set of
 pre-defined colliders in order to fit the mesh with the best shape possible.
 `cuboid` is the default.
 
@@ -77,8 +80,22 @@ A basic example, a ball falling down:
 </RigidBody>
 ```
 
-### Available Automatic Colliders
+### Available Automatic Colliders types
 
+| Prop          | Description                                                                         |
+| :------------ | :---------------------------------------------------------------------------------- |
+| `cuboid`      | Box shape                                                                           |
+| `ball`        | Sphere shape                                                                        |
+| `capsule`     | Capsule shape                                                                       |
+| `cone`        | Cone shape                                                                          |
+| `cylinder`    | Cylinder shape                                                                      |
+| `hull`        | The smallest convex shape that contains all the given points.                       |
+| `trimesh`     | A set of indices indicating what vertex is used by what triangle.                   |
+| `heightfield` | Large rectangle in the X-Z plane, subdivided in a grid pattern at regular intervals |
+
+:::warning
+Avoid using `trimesh` with dynamic bodies, since the performance get compromised
+:::
 ## Applying forces
 
 To use methods (like applying forces or impulses) you first need to access the
@@ -141,12 +158,11 @@ colliders). Then you can start listening for events in `@collision-enter` and/or
 ...
 ```
 
-- You can set continuous collision detection for fast moving object, passing as a
-prop `enableCcd`.
-- You can specify the collision type using
-`activeCollisionTypes` props.
-- Also you can set specific collision groups by
-using the `collisionGroups` prop.
+- You can set continuous collision detection for fast moving object, passing as
+  a prop `enableCcd`.
+- You can specify the collision type using `activeCollisionTypes` props.
+- Also you can set specific collision groups by using the `collisionGroups`
+  prop.
 
 ## Sensor
 
@@ -177,16 +193,17 @@ SOON
 | **enabledTranslations**  | enable translations in specific axis                                                                          | `{x: true, y: true, z: true }` |
 | **lockTranslations**     | Lock all translations                                                                                         | `false`                        |
 | **lockRotations**        | Lock all rotations                                                                                            | `false`                        |
-| **enableCcd**        | Enable continuous collision detection                                                                                            | `false`                        |
+| **enableCcd**            | Enable continuous collision detection                                                                         | `false`                        |
 | **friction**             | The friction coefficient of this collider. (automatic-collider)                                               | `0.5`                          |
 | **mass**                 | Mass of the collider. (automatic-collider)                                                                    | `1`                            |
 | **density**              | Restitution controls how elastic (aka. bouncy) a contact is. (automatic-collider)                             | `0`                            |
 | **restitution**          | The collider density. If non-zero the collider's mass and angular inertia will be added. (automatic-collider) | `1`                            |
-| **activeCollision**      | To set the collider receiver/emitter collision events (automatic-collider)                                                                    | `false`                            |
-| **activeCollisionTypes** | Type of the collision event. (automatic-collider)                                                                    | `ActiveCollisionTypes.DEFAULT`                            |
-| **collisionGroups**      | To specify collision groups. (automatic-collider)                                                                    | `undefined`                            |
+| **activeCollision**      | To set the collider receiver/emitter collision events (automatic-collider)                                    | `false`                        |
+| **activeCollisionTypes** | Type of the collision event. (automatic-collider)                                                             | `ActiveCollisionTypes.DEFAULT` |
+| **collisionGroups**      | To specify collision groups. (automatic-collider)                                                             | `undefined`                    |
 
-:::info The `rigidBody` instance has many other functions, please check the
+:::info
+The `rigidBody` instance has many other functions, please check the
 [official docs](https://rapier.rs/docs/api/javascript/JavaScript3D/) for a
 complete list, if you need them, you can
 use[Template ref](https://vuejs.org/guide/essentials/template-refs.html#template-refs).
