@@ -14,15 +14,10 @@ const gl = {
 }
 
 const rigidTorusRef = shallowRef()
-const ballRef = shallowRef()
 
 const jump = () => {
   if (!rigidTorusRef.value) { return }
   rigidTorusRef.value.instance.applyImpulse({ x: 0, y: 5, z: 0 }, true)
-}
-const jumpBall = () => {
-  if (!ballRef.value) { return }
-  ballRef.value.instance.applyImpulse({ x: 0, y: 5, z: 0 }, true)
 }
 
 const onCollisionEnter = (event: any) => {
@@ -68,11 +63,9 @@ const onCollisionExit = (event: any) => {
           @collision-enter="onCollisionEnterBall"
         >
           <BallCollider
-            ref="ballRef"
             activeCollision
             :args="[1, 1, 1]"
             :position="[8, 15, 0]"
-            @click="jumpBall"
           />
         </RigidBody>
 

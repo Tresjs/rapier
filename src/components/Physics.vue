@@ -7,7 +7,7 @@ import type { VectorCoordinates } from '@tresjs/core'
 import { useRapierContextProvider } from '../composables/useRapier'
 import { GRAVITY } from '../constants/physics'
 
-import { collisionEmisor, get3DGroupFromSource, getSourceFromColliderHandle } from '../utils/collisions'
+import { collisionEmisor, get3DGroupFromSource, getSourceFromColliderHandle } from '../utils'
 import Debug from './Debug.vue'
 import type { PhysicsProps } from '../types'
 
