@@ -7,8 +7,8 @@ export interface CollisionSource {
 };
 
 export interface sourceTarget {
-  group: Object3D
-  rapierGroup: CollisionSource
+  object: Object3D
+  context: CollisionSource
 }
 
 export type collisionType = 'enter' | 'exit'

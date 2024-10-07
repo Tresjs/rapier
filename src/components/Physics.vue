@@ -59,8 +59,8 @@ onBeforeRender(() => {
     const group2 = get3DGroupFromSource(source2, scene)
     if (group1 && group2) {
       collisionEmisor(
-        { group: group1, rapierGroup: source1 },
-        { group: group2, rapierGroup: source2 },
+        { object: group1, context: source1 },
+        { object: group2, context: source2 },
         started,
       )
     }

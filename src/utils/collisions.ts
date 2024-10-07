@@ -31,5 +31,5 @@ export const collisionEmisor = (
   started: boolean,
 ) => {
   const collisionType: collisionType = started ? 'enter' : 'exit';
-  (source.group as any)?.__vnode?.ctx?.emit?.(`collision-${collisionType}`, { source, target })
+  (source.object as any)?.__vnode?.ctx?.emit?.(`collision-${collisionType}`, { source, target })
 }
