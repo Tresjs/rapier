@@ -71,6 +71,7 @@ export default defineConfig({
       {
         text: 'Composables',
         items: [
+          { text: 'useRapier', link: '/composables/use-rapier' },
         ],
       },
     ],

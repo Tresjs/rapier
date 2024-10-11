@@ -3,33 +3,33 @@
 You can add colliders that are not tied to a 3D mesh, this way you can create
 your own collider shape.
 
-```
-...
-<RigidBody>
-  <BallCollider />
-</RigidBody>
-...
+```vue
+<template>
+  <RigidBody>
+    <BallCollider />
+  </RigidBody>
+</template>
 ```
 
 :::warning
 Custom collider needs to be child of a `Rigid-body` component.
 :::
 
-### Available types
+### Available as component
 
 | Prop          | Description                                                                         |
 | :------------ | :---------------------------------------------------------------------------------- |
-| `cuboid`      | Box shape                                                                           |
-| `ball`        | Sphere shape                                                                        |
-| `capsule`     | Capsule shape                                                                       |
-| `cone`        | Cone shape                                                                          |
-| `cylinder`    | Cylinder shape                                                                      |
-| `hull`        | The smallest convex shape that contains all the given points.                       |
-| `trimesh`     | A set of indices indicating what vertex is used by what triangle.                   |
-| `heightfield` | Large rectangle in the X-Z plane, subdivided in a grid pattern at regular intervals |
+| `<CuboidCollider>`      | Box shape                                                                           |
+| `<BallCollider>`        | Sphere shape                                                                        |
+| `<CapsuleCollider>`     | Capsule shape                                                                       |
+| `<ConeCollider>`        | Cone shape                                                                          |
+| `<CylinderCollider>`    | Cylinder shape                                                                      |
+| `<HullCollider>`        | The smallest convex shape that contains all the given points.                       |
+| `<TrimeshCollider>`     | A set of indices indicating what vertex is used by what triangle.                   |
+| `<HeightfieldCollider>` | Large rectangle in the X-Z plane, subdivided in a grid pattern at regular intervals |
 
 :::warning
-Avoid using `trimesh` with dynamic bodies, since the performance get compromised
+Avoid using `<TrimeshCollider >` with dynamic bodies, since the performance get compromised
 :::
 
 ## Collisions
@@ -39,12 +39,15 @@ can set a custom collider to receive collisions events.
 
 Be aware that the event will be emitted by the `RigidBody` parent
 
-```html
-...
-<RigidBody @collision-enter="onCollisionEnter" @collision-exit="onCollisionExit">
-  <BallCollider activeCollision />
-</RigidBody>
-...
+```vue
+<template>
+  <RigidBody
+    @collision-enter="onCollisionEnter"
+    @collision-exit="onCollisionExit"
+  >
+    <BallCollider activeCollision />
+  </RigidBody>
+</template>
 ```
 
 ## Props
@@ -62,7 +65,8 @@ Be aware that the event will be emitted by the `RigidBody` parent
 | **activeCollisionTypes** | Type of the collision event.                                                                                  | `ActiveCollisionTypes.DEFAULT` |
 | **collisionGroups**      | To specify collision groups.                                                                                  | `undefined`                    |
 
-:::info You can access the
+:::info
+You can access the
 [Collider](https://rapier.rs/docs/user_guides/javascript/colliders) instance
 which offers full control over all the properties & methods available by using
 [Template refs](https://vuejs.org/guide/essentials/template-refs.html#template-refs).
@@ -70,8 +74,8 @@ which offers full control over all the properties & methods available by using
 
 ## Expose object
 
-```
-{
+```js
+const exposeObject = {
   instance,
   colliderDesc,
 }

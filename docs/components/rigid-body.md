@@ -1,17 +1,17 @@
 # RigidBody
 
-:::info
-The information in this page is a summary of the RigidBody instance,
-please check the
-[complete documentation](https://rapier.rs/docs/user_guides/javascript/rigid_bodies)
-:::
-
 The real-time simulation of rigid-bodies subjected to forces and contacts is the
 main feature of a physics engine for video-games, robotics, or animation.
 
 `@tresjs/rapier` provides a `RigidBody` component compatible with the `Tresjs`
 ecosystem, with the advantage of making the "bound" between the two worlds
 (physic world and our 3D scene).
+
+:::info
+The information in this page is a summary of the RigidBody instance,
+please check the
+[complete documentation](https://rapier.rs/docs/user_guides/javascript/rigid_bodies)
+:::
 
 ## Basic usage
 
@@ -20,14 +20,15 @@ To use a `RigidBody` component, the best case is to import it from
 [slot](https://vuejs.org/guide/components/slots.html#scoped-slots) the element
 that you want to attach.
 
-```html
-<RigidBody>
-  <TresMesh :position="[0, 8, 0]">
-    <TresTorusGeometry />
-    <TresMeshNormalMaterial />
-  </TresMesh>
-</RigidBody>
-
+```vue
+<template>
+  <RigidBody>
+    <TresMesh :position="[0, 8, 0]">
+      <TresTorusGeometry />
+      <TresMeshNormalMaterial />
+    </TresMesh>
+  </RigidBody>
+</template>
 ```
 
 ## Types
@@ -36,14 +37,15 @@ We can specify what kind of `RigidBody` type. `Dynamic` is the default.
 
 A basic floor example with type fixed:
 
-```html
-<RigidBody type="fixed">
-  <TresMesh :position="[0, 0, 0]">
-    <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
-    <TresMeshBasicMaterial color="#f4f4f4" />
-  </TresMesh>
-</RigidBody>
-
+```vue
+<template>
+  <RigidBody type="fixed">
+    <TresMesh :position="[0, 0, 0]">
+      <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
+      <TresMeshBasicMaterial color="#f4f4f4" />
+    </TresMesh>
+  </RigidBody>
+</template>
 ```
 
 ### Available types
@@ -55,12 +57,13 @@ A basic floor example with type fixed:
 | `KinematicPositionBased` | Indicates that the body position must not be altered by the physics engine.                                  |
 | `KinematicVelocityBased` | Indicates that the body velocity must not be altered by the physics engine.                                  |
 
-:::info Both position-based and velocity-based kinematic bodies are mostly the
+:::info
+ Both position-based and velocity-based kinematic bodies are mostly the
 same. Choosing between both is mostly a matter of preference between
-position-based control and velocity-based control. :::
-
+position-based control and velocity-based control.
 More info at
 [Rigid-body type](https://rapier.rs/docs/user_guides/javascript/rigid_bodies#rigid-body-type)
+:::
 
 ## Automatic Colliders
 
@@ -71,13 +74,15 @@ pre-defined colliders in order to fit the mesh with the best shape possible.
 
 A basic example, a ball falling down:
 
-```html{1}
-<RigidBody collider="ball">
-  <TresMesh :position="[0,7, 0]">
-    <TresSphereGeometry />
-    <TresMeshNormalMaterial />
-  </TresMesh>
-</RigidBody>
+```vue{2}
+<template>
+  <RigidBody collider="ball">
+    <TresMesh :position="[0,7, 0]">
+      <TresSphereGeometry />
+      <TresMeshNormalMaterial />
+    </TresMesh>
+  </RigidBody>
+</template>
 ```
 
 ### Available Automatic Colliders types
@@ -147,16 +152,19 @@ To start receiving collisions events, first you need to set the
 colliders). Then you can start listening for events in `@collision-enter` and/or
 `@collision-exit`.
 
-```html
-...
-<RigidBody activeCollision @collision-enter="onCollisionEnter" @collision-exit="onCollisionExit">
-  <TresMesh>
-    <TresBoxGeometry />
-    <TresMeshNormalMaterial />
-  </TresMesh>
-</RigidBody>
-...
-
+```vue
+<template>
+  <RigidBody
+    activeCollision
+    @collision-enter="onCollisionEnter"
+    @collision-exit="onCollisionExit"
+  >
+    <TresMesh>
+      <TresBoxGeometry />
+      <TresMeshNormalMaterial />
+    </TresMesh>
+  </RigidBody>
+</template>
 ```
 
 - You can set continuous collision detection for fast moving object, passing as
@@ -212,8 +220,8 @@ use[Template ref](https://vuejs.org/guide/essentials/template-refs.html#template
 
 ## Expose object
 
-```
-{
+```js
+const exposeObject = {
   instance: rigidBodyInstance,
   rigidBodyDesc,
   context: colliderInfos,
