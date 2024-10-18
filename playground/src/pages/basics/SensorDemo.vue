@@ -72,7 +72,6 @@ onMounted(() => {
           type="fixed"
         >
           <CuboidCollider
-            name="cuboid-sensor"
             :args="[10, 3, 0.5]"
             :position="[0, 3, 3]"
             activeCollision
