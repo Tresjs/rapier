@@ -39,4 +39,9 @@ export const basicsRoutes = [
     name: 'Sensor',
     component: () => import('../../pages/basics/SensorDemo.vue'),
   },
+  {
+    path: '/basics/joints',
+    name: 'Joints',
+    component: () => import('../../pages/basics/JointsDemo.vue'),
+  },
 ]
