@@ -101,8 +101,8 @@ importers:
   playground:
     dependencies:
       '@tresjs/cientos':
-        specifier: ^3.9.0
-        version: 3.9.0(@tresjs/core@4.2.10(three@0.168.0)(vue@3.5.0(typescript@5.5.4)))(three@0.168.0)(tweakpane@4.0.4)(vue@3.5.0(typescript@5.5.4))
+        specifier: ^4.0.0
+        version: 4.0.3(@tresjs/core@4.2.10(three@0.168.0)(vue@3.5.0(typescript@5.5.4)))(three@0.168.0)(vue@3.5.0(typescript@5.5.4))
       vue:
         specifier: ^3.4.27
         version: 3.5.0(typescript@5.5.4)
@@ -1081,12 +1081,11 @@ packages:
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
-  '@tresjs/cientos@3.9.0':
-    resolution: {integrity: sha512-LAtMveKlecKvWh7TNWdwEs3nQUYMLqz9DZy0YhSZ6OVTfL2vevx2K4sH9744UME8OedUf4fkFFkX4OWQRHaDRQ==}
+  '@tresjs/cientos@4.0.3':
+    resolution: {integrity: sha512-6urkgwGtXzxj7JBZh0HjX5sJwaoNVHXXclFNwFyWVIOBHBikAxFF52GhxTaAlOYfMnun2YKBW/StjnWutq7zAQ==}
     peerDependencies:
-      '@tresjs/core': '>=3.2'
+      '@tresjs/core': '>=4.2.1'
       three: '>=0.133'
-      tweakpane: '>=3.0.0'
       vue: '>=3.3'
 
   '@tresjs/core@4.2.10':
@@ -4057,9 +4056,6 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  tweakpane@4.0.4:
-    resolution: {integrity: sha512-RkWD54zDlEbnN01wQPk0ANHGbdCvlJx/E8A1QxhTfCbX+ROWos1Ws2MnhOm39aUGMOh+36TjUwpDmLfmwTr1Fg==}
-
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -5412,17 +5408,16 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@tresjs/cientos@3.9.0(@tresjs/core@4.2.10(three@0.168.0)(vue@3.5.0(typescript@5.5.4)))(three@0.168.0)(tweakpane@4.0.4)(vue@3.5.0(typescript@5.5.4))':
+  '@tresjs/cientos@4.0.3(@tresjs/core@4.2.10(three@0.168.0)(vue@3.5.0(typescript@5.5.4)))(three@0.168.0)(vue@3.5.0(typescript@5.5.4))':
     dependencies:
       '@tresjs/core': 4.2.10(three@0.168.0)(vue@3.5.0(typescript@5.5.4))
-      '@vueuse/core': 10.11.1(vue@3.5.0(typescript@5.5.4))
+      '@vueuse/core': 11.0.3(vue@3.5.0(typescript@5.5.4))
       camera-controls: 2.9.0(three@0.168.0)
       stats-gl: 2.2.8
       stats.js: 0.17.0
       three: 0.168.0
       three-custom-shader-material: 5.4.0(three@0.168.0)
       three-stdlib: 2.32.2(three@0.168.0)
-      tweakpane: 4.0.4
       vue: 3.5.0(typescript@5.5.4)
     transitivePeerDependencies:
       - '@react-three/fiber'
@@ -6226,7 +6221,6 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    optional: true
 
   '@vueuse/core@11.0.3(vue@3.5.4(typescript@5.6.2))':
     dependencies:
@@ -6273,7 +6267,6 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    optional: true
 
   '@vueuse/shared@11.0.3(vue@3.5.4(typescript@5.6.2))':
     dependencies:
@@ -8967,8 +8960,6 @@ snapshots:
       get-tsconfig: 4.8.0
     optionalDependencies:
       fsevents: 2.3.3
-
-  tweakpane@4.0.4: {}
 
   type-check@0.4.0:
     dependencies:
