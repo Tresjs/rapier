@@ -98,5 +98,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <slot></slot>
+  <TresGroup>
+    <slot></slot>
+  </TresGroup>
 </template>
