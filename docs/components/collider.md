@@ -11,7 +11,7 @@ Be aware that the event will be emitted by the `RigidBody` parent
 <RigidBody @collision-enter="onCollisionEnter" @collision-exit="onCollisionExit">
   <BallCollider activeCollision />
 </RigidBody>
-...
+...
 ```
 
 ## Props
