@@ -6,9 +6,9 @@ export interface CollisionSource {
   rigidBody: RigidBody | undefined
 };
 
-export interface sourceTarget {
+export interface SourceTarget {
   object: TresVNodeObject
   context: CollisionSource
 }
 
-export type collisionType = 'enter' | 'exit'
+export type CollisionType = 'enter' | 'exit'
