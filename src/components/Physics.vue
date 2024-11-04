@@ -73,22 +73,11 @@ onBeforeRender(() => {
       started,
     )
 
-    if (started) {
-      if (world.intersectionPair(source1.collider, source2.collider)) {
-        emitIntersection(
-          { object: group2, context: source2 },
-          { object: group1, context: source1 },
-          true,
-        )
-      }
-    }
-    else {
-      emitIntersection(
-        { object: group2, context: source2 },
-        { object: group1, context: source1 },
-        false,
-      )
-    }
+    emitIntersection(
+      { object: group2, context: source2 },
+      { object: group1, context: source1 },
+      started && world.intersectionPair(source1.collider, source2.collider),
+    )
   })
 })
 </script>
