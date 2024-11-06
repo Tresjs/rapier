@@ -53,5 +53,10 @@
   },
   "[typescript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  }
+  },
+
+  "cSpell.words": [
+    "cientos",
+    "tresjs"
+  ]
 }
