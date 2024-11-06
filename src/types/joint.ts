@@ -12,15 +12,5 @@ export interface JointProps {
   bodies?: RigidBody[]
 
   /** @description {@link JointData} parameters. */
-  params?:
-    | [
-      [x: number, y: number, z: number],
-      [w: number, x: number, y: number, z: number],
-      [x: number, y: number, z: number],
-      [w: number, x: number, y: number, z: number],
-    ]
-    | [
-      [x: number, y: number, z: number],
-      [x: number, y: number, z: number],
-    ]
+  params?: (number | number[])[]
 }

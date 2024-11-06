@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-ignore
 import { type ExposedRigidBody, Joint, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
@@ -24,16 +26,16 @@ const body2 = shallowRef<ExposedRigidBody>(null)
 
     <Suspense>
       <Physics debug>
-        <RigidBody ref="body1">
+        <RigidBody ref="body1" type="kinematic" collider="ball">
           <TresMesh :position="[0, 8, 0]">
-            <TresTorusGeometry />
+            <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
 
-        <RigidBody ref="body2">
+        <RigidBody ref="body2" collider="ball">
           <TresMesh :position="[0, 8, 2]">
-            <TresTorusGeometry />
+            <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
@@ -49,8 +51,8 @@ const body2 = shallowRef<ExposedRigidBody>(null)
           type="spherical"
           :bodies="[body1?.instance, body2?.instance]"
           :params="[
-            [0, 8, 1],
-            [0, 0, -3],
+            [0, 8, 0],
+            [0, 12, 2],
           ]"
         />
       </Physics>
