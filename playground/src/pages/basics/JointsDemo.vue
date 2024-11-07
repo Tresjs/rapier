@@ -4,8 +4,9 @@ import { TresCanvas } from '@tresjs/core'
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-ignore
 import { type ExposedRigidBody, Joint, Physics, RigidBody } from '@tresjs/rapier'
-import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
+import { ACESFilmicToneMapping, Quaternion, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
+import type { ShallowRef } from 'vue'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -15,46 +16,59 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
 }
 
-const body1 = shallowRef<ExposedRigidBody>(null)
-const body2 = shallowRef<ExposedRigidBody>(null)
+const yRotation = shallowRef(0)
+const bodyRefs: ShallowRef<ShallowRef[]> = shallowRef(
+  Array.from({ length: 10 }).map(() => shallowRef<ExposedRigidBody>(null)),
+)
+
+setInterval(() => {
+  const body = bodyRefs.value[0].value?.[0]?.instance
+  if (!body) { return }
+
+  yRotation.value = yRotation.value + 1
+
+  body.setNextKinematicRotation(new Quaternion(0, Math.sin(yRotation.value) * 1.5, 0, 1))
+}, 1000)
 </script>
 
 <template>
   <TresCanvas v-bind="gl" window-size>
-    <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
+    <TresPerspectiveCamera :position="[0, 0, 30]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 
     <Suspense>
       <Physics debug>
-        <RigidBody ref="body1" type="kinematic" collider="ball">
-          <TresMesh :position="[0, 8, 0]">
+        <RigidBody
+          v-for="(ref, i) in bodyRefs"
+          :key="i"
+          :ref="ref"
+          :type="i === 0 ? 'kinematic' : 'dynamic'"
+          :position="[i * 1.5, 0, 0]"
+          collider="ball"
+        >
+          <TresMesh>
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
-          </TresMesh>
-        </RigidBody>
-
-        <RigidBody ref="body2" collider="ball">
-          <TresMesh :position="[0, 8, 2]">
-            <TresSphereGeometry />
-            <TresMeshNormalMaterial />
-          </TresMesh>
-        </RigidBody>
-
-        <RigidBody type="fixed">
-          <TresMesh :position="[0, 0, 0]">
-            <TresPlaneGeometry :args="[20, 20, 20]" :rotate-x="-Math.PI / 2" />
-            <TresMeshBasicMaterial color="#f4f4f4" />
           </TresMesh>
         </RigidBody>
 
         <Joint
+          v-for="(ref, i) in bodyRefs"
+          :key="i"
           type="spherical"
-          :bodies="[body1?.instance, body2?.instance]"
+          :bodies="[ref.value?.[0]?.instance, bodyRefs[i - 1]?.value?.[0]?.instance]"
           :params="[
-            [0, 8, 0],
-            [0, 12, 2],
+            [-1.1, 0, 0],
+            [1.1, 0, 0],
           ]"
         />
+
+        <RigidBody type="fixed">
+          <TresMesh :position="[0, -10, 0]">
+            <TresPlaneGeometry :args="[40, 40, 20]" :rotate-x="-Math.PI / 2" />
+            <TresMeshBasicMaterial color="#f4f4f4" />
+          </TresMesh>
+        </RigidBody>
       </Physics>
     </Suspense>
   </TresCanvas>
