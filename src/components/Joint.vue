@@ -3,7 +3,7 @@ import { type ImpulseJoint, type JointData, Quaternion, Vector3 } from '@dimforg
 import { shallowRef, watch } from 'vue'
 
 import { useRapier } from '../composables'
-import type { JointProps } from '../types'
+import type { JointProps, QuaternionArray, VectorArray } from '../types'
 
 const {
   type = 'fixed',
@@ -49,8 +49,8 @@ watch(() => bodies, (bodies) => {
   ) {
     jointParams = rapier.JointData.rope(
       params[0],
-      new Vector3(...params[1] as [number, number, number]),
-      new Quaternion(...params[2] as [number, number, number, number]),
+      new Vector3(...params[1] as VectorArray),
+      new Quaternion(...params[2] as QuaternionArray),
     )
   }
   else if (type === 'rope') {
@@ -64,8 +64,8 @@ watch(() => bodies, (bodies) => {
     && (Array.isArray(params[1]) && params[1].length >= 3)
   ) {
     jointParams = rapier.JointData.spherical(
-      new Vector3(...params[0] as [number, number, number]),
-      new Vector3(...params[1] as [number, number, number]),
+      new Vector3(...params[0] as VectorArray),
+      new Vector3(...params[1] as VectorArray),
     )
   }
   else if (type === 'spherical') {
