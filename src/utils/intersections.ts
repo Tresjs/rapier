@@ -1,3 +1,4 @@
+import type { ComponentInternalInstance } from 'vue'
 import type { CollisionType, SourceTarget } from '../types'
 
 /**
@@ -17,5 +18,14 @@ export const emitIntersection = (
   const CollisionType: CollisionType = started ? 'enter' : 'exit'
   const colliderNode = source.object?.__vnode?.children?.[1]?.children?.find(child => child?.component?.exposed?.instance?.value === source.context.collider)
 
+  if (
+    (source.object?.__vnode?.ctx as unknown as ComponentInternalInstance)?.props?.sensor
+    && colliderNode?.component === undefined
+  ) {
+    source.object?.__vnode?.ctx?.emit?.(
+      `intersection-${CollisionType}`,
+      { source, target },
+    )
+  }
   colliderNode?.component?.emit?.(`intersection-${CollisionType}`, { source, target })
 }
