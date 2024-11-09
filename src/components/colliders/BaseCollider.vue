@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ActiveCollisionTypes, ActiveEvents } from '@dimforge/rapier3d-compat'
-
 import { inject, nextTick, onUnmounted, type ShallowRef, shallowRef, watch } from 'vue'
+
 import { useRapierContext } from '../../composables'
 import { createCollider } from '../../core/collider'
 import { makePropsWatcherCL } from '../../utils'
@@ -68,6 +68,7 @@ makePropsWatcherCL(
     'density',
     'mass',
     'activeCollisionTypes',
+    'activeCollision',
     'sensor',
   ],
   colliderInfos,
