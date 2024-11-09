@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-ignore
 import { CuboidCollider, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, MeshNormalMaterial, SRGBColorSpace } from 'three'
 import { onMounted, shallowRef } from 'vue'
@@ -25,6 +27,12 @@ const onIntersection1Enter = () => {
 
 const onIntersection2Enter = () => {
   if (ballRef.value?.material instanceof MeshNormalMaterial) {
+    ballRef.value.material.colorWrite = false
+  }
+}
+
+const onIntersection3Enter = () => {
+  if (ballRef.value?.material instanceof MeshNormalMaterial) {
     ballRef.value.material.wireframe = true
   }
 }
@@ -32,6 +40,7 @@ const onIntersection2Enter = () => {
 const onIntersectionExit = () => {
   if (ballRef.value?.material instanceof MeshNormalMaterial) {
     ballRef.value.material.visible = true
+    ballRef.value.material.colorWrite = true
     ballRef.value.material.wireframe = false
   }
 }
@@ -56,7 +65,7 @@ onMounted(() => {
 
 <template>
   <TresCanvas v-bind="gl" window-size>
-    <TresPerspectiveCamera :position="[-16, 8, 0]" :look-at="[0, 0, 0]" />
+    <TresPerspectiveCamera :position="[-30, 8, -10]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 
     <Suspense>
@@ -70,7 +79,16 @@ onMounted(() => {
 
         <RigidBody
           type="fixed"
+          activeCollision
+          sensor
+          @intersection-enter="onIntersection2Enter"
+          @intersection-exit="onIntersectionExit"
         >
+          <TresMesh :position="[0, 5, 0]">
+            <TresBoxGeometry :args="[10, 10, 0.5]" />
+            <TresMeshBasicMaterial color="#f4f4f4" />
+          </TresMesh>
+
           <CuboidCollider
             :args="[10, 3, 0.5]"
             :position="[0, 3, 3]"
@@ -85,7 +103,7 @@ onMounted(() => {
             :position="[0, 3, -3]"
             activeCollision
             sensor
-            @intersection-enter="onIntersection2Enter"
+            @intersection-enter="onIntersection3Enter"
             @intersection-exit="onIntersectionExit"
           />
         </RigidBody>
