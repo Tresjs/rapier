@@ -44,10 +44,21 @@ By passing the above properties, the collider will no longer be affected by the 
 - **@intersection-enter**:  When another collider starts to traverse the *sensor*
 - **@intersection-exit**: When another collider leave the *sensor*
 
-I.e:
+> ℹ️ Note that you can directly pass those properties to the **`RigidBody`** for **auto-colliders**.
 
 ```vue
-<RigidBody type="fixed">
+<RigidBody
+  type="fixed"
+  activeCollision
+  sensor
+  @intersection-enter="onIntersection2Enter"
+  @intersection-exit="onIntersectionExit"
+>
+  <TresMesh :position="[0, 5, 0]">
+    <TresBoxGeometry :args="[10, 10, 0.5]" />
+    <TresMeshBasicMaterial color="#f4f4f4" />
+  </TresMesh>
+
   <CuboidCollider
     :args="[10, 3, 0.5]"
     :position="[0, 3, 3]"
@@ -62,12 +73,13 @@ I.e:
     :position="[0, 3, -3]"
     activeCollision
     sensor
-    @intersection-enter="onIntersection2Enter"
+    @intersection-enter="onIntersection3Enter"
     @intersection-exit="onIntersectionExit"
   />
 </RigidBody>
 ```
-<!-- Add the demo link -->
+
+<!-- TODO: Add the demo link -->
 
 > ::: info
 > You can access the [Collider](https://rapier.rs/docs/user_guides/javascript/colliders) instance
