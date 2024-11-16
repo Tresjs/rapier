@@ -39,12 +39,14 @@ The `Collider` component comes with a set of useful events allowing actions base
 The **Sensor** feature allows events to be triggered when there's an intersection or in other words, when the collider is traversed by another collider.
 
 The traversed `Collider` (or the collider that will trigger events), is the sensor and should set the `activeCollision` and `sensor` properties to `true`.
-By passing the above properties, the collider will no longer be affected by the physics law and will now start triggering the following intersection events:
+By passing the above properties, the collider will no longer be affected by the physics law and will now start triggering the intersection events.
 
-- **@intersection-enter**:  When another collider starts to traverse the *sensor*
-- **@intersection-exit**: When another collider leave the *sensor*
-
-> ℹ️ Note that you can directly pass those properties to the **`RigidBody`** for **auto-colliders**.
+> ::: info
+> **@intersection-enter**:  When another collider starts to traverse the *sensor*
+> **@intersection-exit**: When another collider leave the *sensor*
+>
+> ℹ️ Note that you can directly pass the events to the **`RigidBody`** for **auto-colliders**.
+> :::
 
 ```vue
 <RigidBody
