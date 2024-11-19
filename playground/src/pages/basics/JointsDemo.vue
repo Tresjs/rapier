@@ -3,7 +3,7 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-ignore
-import { type ExposedRigidBody, Joint, Physics, RigidBody } from '@tresjs/rapier'
+import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, Quaternion, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
 import type { ShallowRef } from 'vue'
@@ -52,10 +52,9 @@ setInterval(() => {
           </TresMesh>
         </RigidBody>
 
-        <Joint
+        <SphericalJoint
           v-for="(ref, i) in bodyRefs"
           :key="i"
-          type="spherical"
           :bodies="[ref.value?.[0]?.instance, bodyRefs[i - 1]?.value?.[0]?.instance]"
           :params="[
             [-1.1, 0, 0],

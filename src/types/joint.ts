@@ -9,8 +9,16 @@ export interface JointProps {
   type: JointType
 
   /** @description  Bodies to connect with the joint. */
-  bodies?: RigidBody[]
+  bodies?: [RigidBody, RigidBody]
 
   /** @description {@link JointData} parameters. */
   params?: (number | number[])[]
+
+  /**
+   * @description
+   * If the joint should wake up the bodies when a lifecycle hook (mount, unmount, on update, ...) occurs.
+   *
+   * @default true
+   */
+  wakeUpOnChanges?: boolean
 }
