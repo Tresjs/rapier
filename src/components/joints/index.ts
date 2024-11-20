@@ -30,10 +30,10 @@ const createJoint = <Props extends Omit<Props, 'type'>>(type: JointType): Compon
 /** @description Joint set as `Fixed` */
 export const FixedJoint = createJoint<Omit<JointProps, 'params'> & {
   params: [
-		anchor1: VectorArray,
-		frame1: QuaternionArray,
-		anchor2: VectorArray,
-		frame2: QuaternionArray,
+    anchor1: VectorArray,
+    frame1: QuaternionArray,
+    anchor2: VectorArray,
+    frame2: QuaternionArray,
   ]
 }>('fixed')
 
