@@ -34,4 +34,9 @@ export const basicsRoutes = [
     name: 'Collision',
     component: () => import('../../pages/basics/CollisionDemo.vue'),
   },
+  {
+    path: '/basics/joints',
+    name: 'Joints',
+    component: () => import('../../pages/basics/JointsDemo.vue'),
+  },
 ]

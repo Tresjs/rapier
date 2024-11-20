@@ -9,3 +9,9 @@ export type Methods<T extends object> = NonNever<{
 }>
 
 export type CallableProps<T extends object = object> = Record<keyof Methods<T>, (...args: any[]) => unknown>
+
+/** @description */
+export type VectorArray = [x: number, y: number, z: number]
+
+/** @description */
+export type QuaternionArray = [x: number, y: number, z: number, w: number]
