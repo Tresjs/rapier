@@ -19,7 +19,9 @@ const gl = {
 const bodyContextRef = shallowRef()
 const ballRef = shallowRef<Mesh>()
 
-const onIntersection1Enter = () => {
+const onIntersection1Enter = (ev) => {
+  // eslint-disable-next-line no-console
+  console.log('Intersection 1 enter', ev)
   if (ballRef.value?.material instanceof MeshNormalMaterial) {
     ballRef.value.material.visible = false
   }
@@ -71,7 +73,7 @@ onMounted(() => {
     <Suspense>
       <Physics debug>
         <RigidBody ref="bodyContextRef" collider="ball">
-          <TresMesh ref="ballRef" :position="[0, 8, 8]">
+          <TresMesh ref="ballRef" :position="[0, 8, 8]" name="ball">
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
