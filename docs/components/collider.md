@@ -6,12 +6,13 @@ Similar to [how collisions work in rigid-bodies](./rigid-body.md#collisions) you
 
 Be aware that the event will be emitted by the `RigidBody` parent
 
-```html
-...
-<RigidBody @collision-enter="onCollisionEnter" @collision-exit="onCollisionExit">
+```vue { 2,3}
+<RigidBody
+  @collision-enter="onCollisionEnter"
+  @collision-exit="onCollisionExit"
+>
   <BallCollider activeCollision />
 </RigidBody>
-...
 ```
 
 ## Props
@@ -39,14 +40,14 @@ The `Collider` component comes with a set of useful events allowing actions base
 The **Sensor** feature allows events to be triggered when there's an intersection or in other words, when the collider is traversed by another collider.
 
 The traversed `Collider` (or the collider that will trigger events), is the sensor and should set the `activeCollision` and `sensor` properties to `true`.
-By passing the above properties, the collider will no longer be affected by the physics law and will now start triggering the intersection events.
+By passing the above properties, the collider will no longer be affected by the physics law and will now start triggering the intersection events:
 
-> ::: info
-> **@intersection-enter**:  When another collider starts to traverse the *sensor*
-> **@intersection-exit**: When another collider leave the *sensor*
->
-> ℹ️ Note that you can directly pass the events to the **`RigidBody`** for **auto-colliders**.
-> :::
+- **@intersection-enter**: When another collider starts to traverse the *sensor*
+- **@intersection-exit**: When another collider leave the *sensor*
+
+::: info
+Note that you can directly pass the events to the **`RigidBody`** for **auto-colliders**.
+:::
 
 ```vue
 <RigidBody
@@ -83,11 +84,11 @@ By passing the above properties, the collider will no longer be affected by the 
 
 <!-- TODO: Add the demo link -->
 
-> ::: info
-> You can access the [Collider](https://rapier.rs/docs/user_guides/javascript/colliders) instance
-> which offers full control over all the properties & methods available
-> by using [Template refs](https://vuejs.org/guide/essentials/template-refs.html#template-refs).
-> :::
+::: info
+You can access the [Collider](https://rapier.rs/docs/user_guides/javascript/colliders) instance
+which offers full control over all the properties & methods available
+by using [Template refs](https://vuejs.org/guide/essentials/template-refs.html#template-refs).
+:::
 
 ## Expose object
 
