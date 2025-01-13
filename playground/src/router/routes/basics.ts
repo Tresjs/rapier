@@ -44,4 +44,9 @@ export const basicsRoutes = [
     name: 'Joints',
     component: () => import('../../pages/basics/JointsDemo.vue'),
   },
+  {
+    path: '/basics/joints-advanced',
+    name: 'Advanced Joints',
+    component: () => import('../../pages/basics/JointsAdvancedDemo.vue'),
+  },
 ]

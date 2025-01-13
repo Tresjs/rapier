@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { type ImpulseJoint, type JointAxesMask, type JointData, Quaternion, Vector3 } from '@dimforge/rapier3d-compat'
-import { onUnmounted, shallowRef, watch } from 'vue'
+import { onUnmounted, onUpdated, shallowRef } from 'vue'
 
 import { useRapier } from '../../composables'
 import type { JointProps, QuaternionArray, VectorArray } from '../../types'
@@ -20,10 +20,18 @@ const { world, rapier } = useRapier()
 
 const joins = shallowRef<ImpulseJoint>()
 
-watch(() => bodies, (bodies) => {
+const dispose = () => {
+  if (joins.value) {
+    world.removeImpulseJoint(joins.value, wakeUpOnChanges)
+    joins.value = undefined
+  }
+}
+
+const setup = (bodies: JointProps['bodies'], params: JointProps['params']) => {
+  dispose()
+
   if (
-    joins.value
-    || !(bodies?.[0] instanceof rapier.RigidBody)
+    !(bodies?.[0] instanceof rapier.RigidBody)
     || !(bodies?.[1] instanceof rapier.RigidBody)
     || !Array.isArray(params)
   ) {
@@ -31,7 +39,7 @@ watch(() => bodies, (bodies) => {
   }
 
   let jointParams: JointData | undefined
-  let hasParamsError = false
+  let hasErrMsg: string | undefined
 
   if (
     type === 'fixed'
@@ -49,7 +57,7 @@ watch(() => bodies, (bodies) => {
     )
   }
   else if (type === 'fixed') {
-    hasParamsError = true
+    hasErrMsg = `Invalid ${type} joint parameters. Expected 4 arrays with at least 3 numbers.`
   }
 
   if (
@@ -68,7 +76,7 @@ watch(() => bodies, (bodies) => {
     )
   }
   else if (type === 'generic') {
-    hasParamsError = true
+    hasErrMsg = `Invalid ${type} joint parameters. Expected 3 arrays with at least 3 numbers.`
   }
 
   if (
@@ -85,7 +93,7 @@ watch(() => bodies, (bodies) => {
     )
   }
   else if (type === 'prismatic') {
-    hasParamsError = true
+    hasErrMsg = `'Invalid ${type} joint parameters. Expected 3 arrays with at least 3 numbers.`
   }
 
   if (
@@ -102,7 +110,7 @@ watch(() => bodies, (bodies) => {
     )
   }
   else if (type === 'revolute') {
-    hasParamsError = true
+    hasErrMsg = `Invalid ${type} joint parameters. Expected 3 arrays with at least 3 numbers.`
   }
 
   if (
@@ -119,7 +127,7 @@ watch(() => bodies, (bodies) => {
     )
   }
   else if (type === 'rope') {
-    hasParamsError = true
+    hasErrMsg = `Invalid ${type} joint parameters. Expected a number, an array with at least 3 numbers, and an array with at least 4 numbers.`
   }
 
   if (
@@ -134,7 +142,7 @@ watch(() => bodies, (bodies) => {
     )
   }
   else if (type === 'spherical') {
-    hasParamsError = true
+    hasErrMsg = `Invalid ${type} joint parameters. Expected 2 arrays with at least 3 numbers.`
   }
 
   if (
@@ -155,11 +163,11 @@ watch(() => bodies, (bodies) => {
     )
   }
   else if (type === 'spring') {
-    hasParamsError = true
+    hasErrMsg = `Invalid ${type} joint parameters. Expected 5 parameters: 3 numbers and 2 arrays with at least 3 numbers.`
   }
 
-  if (hasParamsError) {
-    throw new Error(`Invalid "${type}" joint parameters`)
+  if (hasErrMsg) {
+    throw new Error(`🚧 An error occurred while creating the joint: ${hasErrMsg}`)
   }
 
   if (!jointParams) {
@@ -167,12 +175,12 @@ watch(() => bodies, (bodies) => {
   }
 
   joins.value = world.createImpulseJoint(jointParams, bodies[0], bodies[1], wakeUpOnChanges)
-})
+}
+
+onUpdated(() => setup(bodies, params))
 
 onUnmounted(() => {
-  if (joins.value) {
-    world.removeImpulseJoint(joins.value, wakeUpOnChanges)
-  }
+  dispose()
 })
 
 defineExpose({
