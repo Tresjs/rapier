@@ -49,4 +49,9 @@ export const basicsRoutes = [
     name: 'Advanced Joints',
     component: () => import('../../pages/basics/JointsAdvancedDemo.vue'),
   },
+  {
+    path: '/basics/ragdoll',
+    name: 'Basic Ragdoll',
+    component: () => import('../../pages/basics/Ragdoll.vue'),
+  },
 ]
