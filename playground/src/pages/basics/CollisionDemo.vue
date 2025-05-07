@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
+// @ts-ignore
 import { BallCollider, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
@@ -22,15 +23,22 @@ const jump = () => {
 
 const onCollisionEnter = (event: any) => {
   // eslint-disable-next-line no-console
-  console.log('jaime ~ ENTER', event)
+  console.log('Collision enter', event)
 }
+
 const onCollisionEnterBall = (event: any) => {
   // eslint-disable-next-line no-console
-  console.log('jaime ~ ENTER', event.source.rapierGroup.collider.collisionGroups())
+  console.log('Collision ball enter', event.source.context.collider.collisionGroups())
 }
+
+const onCollisionEnterBall_2 = (event: any) => {
+  // eslint-disable-next-line no-console
+  console.log('Ball collided with surface', event.source.context.collider.collisionGroups())
+}
+
 const onCollisionExit = (event: any) => {
   // eslint-disable-next-line no-console
-  console.log('jaime ~ EXIT', event)
+  console.log('Collision exit', event)
 }
 </script>
 
@@ -63,9 +71,10 @@ const onCollisionExit = (event: any) => {
           @collision-enter="onCollisionEnterBall"
         >
           <BallCollider
-            activeCollision
             :args="[1, 1, 1]"
             :position="[8, 15, 0]"
+            activeCollision
+            @collision-enter="onCollisionEnterBall_2"
           />
         </RigidBody>
 

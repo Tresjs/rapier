@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-// eslint-disable-next-line ts/ban-ts-comment
 // @ts-ignore
 import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
