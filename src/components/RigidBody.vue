@@ -21,6 +21,7 @@ import type {
   ExposedRigidBody,
   RigidBodyContext,
   RigidBodyProps,
+  TresVNodeObject,
 } from '../types'
 
 const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
@@ -82,12 +83,20 @@ watch(bodyGroup, async (group) => {
     }),
     group,
     colliders: [],
+
   }
 
   if (props.collider !== false) {
     const collidersProps: ColliderProps[] = []
 
     for (const child of group.children) {
+      const vNode = (child as TresVNodeObject).__vnode
+      const vNodeExposed = (vNode.ctx as TresVNodeObject['__vnode']['ctx'] & { exposed: TresVNodeObject })?.exposed
+
+      if (vNode.type === 'TresObject3D' && vNodeExposed?.instance?.__v_isRef) {
+        continue
+      }
+
       const _props = createColliderPropsFromObject(child, props.collider)
       _props.friction = props.friction
       _props.mass = props.mass
@@ -108,18 +117,6 @@ watch(bodyGroup, async (group) => {
   instanceDesc.value = newPhysicsState.rigidBodyDesc
   bodyContext.value = newPhysicsState
 }, { once: true })
-
-makePropsWatcherRB(props, [
-  'gravityScale',
-  'additionalMass',
-  'linearDamping',
-  'angularDamping',
-  'dominanceGroup',
-  'linvel',
-  'angvel',
-  'enabledRotations',
-  'enabledTranslations',
-], instance)
 
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }
@@ -160,6 +157,18 @@ onUnmounted(() => {
 
   bodyContext.value = undefined
 })
+
+makePropsWatcherRB(props, [
+  'gravityScale',
+  'additionalMass',
+  'linearDamping',
+  'angularDamping',
+  'dominanceGroup',
+  'linvel',
+  'angvel',
+  'enabledRotations',
+  'enabledTranslations',
+], instance)
 </script>
 
 <template>

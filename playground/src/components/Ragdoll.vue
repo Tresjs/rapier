@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { CuboidCollider, RigidBody, SphericalJoint } from '@tresjs/rapier'
-import type { ShallowRef } from 'vue'
-import { onMounted, shallowRef } from 'vue'
-import type { ExposedRigidBody } from '@tresjs/rapier'
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-ignore
+import { CuboidCollider, type ExposedRigidBody, RigidBody, SphericalJoint } from '@tresjs/rapier'
+import { onMounted, shallowRef, type ShallowRef } from 'vue'
 
 const headRef: ShallowRef<ExposedRigidBody> = shallowRef(null)
 const torsoRef: ShallowRef<ExposedRigidBody> = shallowRef(null)

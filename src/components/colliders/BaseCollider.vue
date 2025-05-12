@@ -9,7 +9,6 @@ import type { ColliderProps, CreateColliderReturnType, ExposedCollider, RigidBod
 
 const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   shape: 'cuboid',
-  args: () => [1, 1, 1],
   friction: 0.5,
   mass: 1,
   restitution: 0,
@@ -26,6 +25,7 @@ const bodyContext = inject<ShallowRef<RigidBodyContext>>('bodyContext') ?? shall
 const colliderInfos = shallowRef<CreateColliderReturnType>()
 const instance = shallowRef<CreateColliderReturnType['collider']>()
 const colliderDesc = shallowRef<CreateColliderReturnType['colliderDesc']>()
+const currentObject = shallowRef<CreateColliderReturnType['object']>()
 
 defineExpose({
   instance,
@@ -35,18 +35,19 @@ defineExpose({
 watch(bodyContext, async (state) => {
   await nextTick()
 
+  const object = props.object ?? currentObject.value
+  const rigidBody = state?.rigidBody
   const isColliderExist = !!state?.colliders.find((item) => {
     return item.object.uuid === props.object?.uuid
   })
 
-  if (!state || isColliderExist) { return }
+  if (!object || !rigidBody || isColliderExist) { return }
 
-  const object = props.object ?? state.group
   const infos = {
     ...createCollider({
       ...props,
       object,
-      rigidBody: state.rigidBody,
+      rigidBody,
       world,
     }),
     object,
@@ -58,21 +59,6 @@ watch(bodyContext, async (state) => {
 
   state.colliders.push(infos)
 }, { immediate: true })
-
-// TODO: collisionGroups
-makePropsWatcherCL(
-  props,
-  [
-    'friction',
-    'restitution',
-    'density',
-    'mass',
-    'activeCollisionTypes',
-    'activeCollision',
-    'sensor',
-  ],
-  colliderInfos,
-)
 
 watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
   if (!colliderInfos.value?.collider || !_collisionGroups) { return }
@@ -96,10 +82,25 @@ onUnmounted(() => {
 
   colliderInfos.value = undefined
 })
+
+// TODO: collisionGroups
+makePropsWatcherCL(
+  props,
+  [
+    'friction',
+    'restitution',
+    'density',
+    'mass',
+    'activeCollisionTypes',
+    'activeCollision',
+    'sensor',
+  ],
+  colliderInfos,
+)
 </script>
 
 <template>
-  <TresObject3D>
+  <TresObject3D ref="currentObject">
     <slot></slot>
   </TresObject3D>
 </template>
