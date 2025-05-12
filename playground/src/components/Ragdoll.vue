@@ -63,7 +63,7 @@ onMounted(() => {
   document.addEventListener('click', () => {
     if (!headRef.value) { return }
 
-    headRef.value.instance?.applyImpulse({ x: 0, y: 35, z: 0 }, true)
+    headRef.value.instance?.applyImpulse({ x: 0, y: 10, z: 0 }, true)
   })
 })
 </script>
