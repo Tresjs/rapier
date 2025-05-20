@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-// @ts-ignore
 import { CuboidCollider, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, MeshNormalMaterial, SRGBColorSpace } from 'three'
 import { onMounted, shallowRef } from 'vue'

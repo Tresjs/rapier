@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-// @ts-ignore
 import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
@@ -15,8 +14,8 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
 }
 
-const bodyRefA: ShallowRef<ExposedRigidBody> = shallowRef(null)
-const bodyRefB: ShallowRef<ExposedRigidBody> = shallowRef(null)
+const bodyRefA: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
+const bodyRefB: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 </script>
 
 <template>
