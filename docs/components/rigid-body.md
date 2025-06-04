@@ -157,7 +157,7 @@ colliders). Then you can start listening for events in `@collision-enter` and/or
     <TresMeshNormalMaterial />
   </TresMesh>
 </RigidBody>
-...
+...
 ```
 
 - You can set continuous collision detection for fast moving object, passing as a

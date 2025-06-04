@@ -34,7 +34,7 @@ import { TresCanvas } from '@tresjs/core'
 Then we enable `Rapier` by adding the `<Physics >` component surrounding all the elements we want to be affected by physics, in this case, the ball and the floor.
 
 ::: warning
-	The <Physics /> component needs to be wrapped by a Suspense component
+The `Physics` component needs to be wrapped by a Suspense component
 :::
 
 ```vue{3,10,11,21,22}
